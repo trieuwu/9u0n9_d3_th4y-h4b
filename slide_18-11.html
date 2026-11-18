@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triển Khai Đội Thi Hack4Biz 2026 — Họp Nội Bộ 18/11/2026</title>
+  <!-- Google Fonts: Be Vietnam Pro & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bgMain: '#090D16',
+            surface: '#111827',
+            borderSubtle: '#1F2937',
+            borderInput: '#334155',
+            textMain: '#F8FAFC',
+            textMuted: '#94A3B8',
+            emeraldAccent: '#10B981',
+            cyanAccent: '#06B6D4',
+          },
+          fontFamily: {
+            sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #090D16;
+      color: #F8FAFC;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .mono-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .prose-measure {
+      max-width: 72ch;
+    }
+    .slide {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      padding: 3.25rem 5rem 4rem 5rem;
+      overflow: hidden;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .slide.active {
+      display: flex;
+    }
+    /* Minimalist Table Rules */
+    .editorial-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .editorial-table th {
+      color: #94A3B8;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #1F2937;
+    }
+    .editorial-table td {
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #1F2937;
+      vertical-align: middle;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    /* Minimalist Form Inputs */
+    .table-input, .table-select {
+      width: 100%;
+      background-color: #090D16;
+      border: 1px solid #334155;
+      color: #F8FAFC;
+      padding: 0.4rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .table-input:focus, .table-select:focus {
+      border-color: #10B981;
+    }
+    .table-input::placeholder {
+      color: #475569;
+    }
+    .table-select option {
+      background-color: #090D16;
+      color: #F8FAFC;
+    }
+    /* Subtle scrollbar only inside modal if needed */
+    #gridModalContent::-webkit-scrollbar {
+      width: 6px;
+    }
+    #gridModalContent::-webkit-scrollbar-thumb {
+      background: #1F2937;
+      border-radius: 3px;
+    }
+    @media (max-height: 820px) {
+      .slide {
+        padding: 2.25rem 3.5rem 3rem 3.5rem;
+      }
+      .editorial-table td, .editorial-table th {
+        padding: 0.45rem 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-bgMain text-textMain select-none">
+
+  <!-- Top Progress Bar (2px thin) -->
+  <div class="fixed top-0 left-0 w-full h-[2px] bg-surface z-40">
+    <div id="progressBar" class="h-full bg-emeraldAccent transition-all duration-200" style="width: 7.69%;"></div>
+  </div>
+
+  <!-- ==========================================
+       SLIDE 01: TRANG BÌA
+       ========================================== -->
+  <section class="slide active" data-title="Trang bìa">
+    <div class="flex items-center justify-between border-b border-borderSubtle pb-4">
+      <span class="mono-num text-xs uppercase tracking-widest text-cyanAccent">HACK4BIZ COMPETITION 2026</span>
+      <span class="mono-num text-xs text-textMuted">INTERNAL WORKING DECK</span>
+    </div>
+
+    <div class="my-auto py-8">
+      <p class="mono-num text-sm text-cyanAccent mb-4">BUỔI HỌP KHỞI ĐỘNG NỘI BỘ</p>
+      <h1 class="text-[36px] md:text-[44px] font-bold tracking-tight text-textMain leading-tight max-w-4xl mb-6">
+        Triển Khai Đội Thi Hack4Biz 2026
+      </h1>
+      <p class="text-[18px] text-textMuted leading-relaxed prose-measure">
+        Thống nhất nguyên tắc phối hợp, nắm rõ cấu trúc thi Agile Scrum &amp; 5 Role chuyên môn, chốt phân vai Vòng 1 và kế hoạch làm việc tuần đầu tiên.
+      </p>
+    </div>
+
+    <div class="border-t border-borderSubtle pt-6 grid grid-cols-3 gap-8 max-w-4xl">
+      <div>
+        <div class="text-xs uppercase tracking-wider text-textMuted mb-1">Ngày họp</div>
+        <div class="mono-num text-[18px] font-medium text-textMain">18/11/2026</div>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-wider text-textMuted mb-1">Cấu trúc đội</div>
+        <div class="text-[18px] font-medium text-textMain"><span class="mono-num">5</span> thành viên (<span class="mono-num">1</span> BA + <span class="mono-num">4</span> Dev)</div>
+      </div>
+      <div>
+        <div class="text-xs uppercase tracking-wider text-textMuted mb-1">Hạn đăng ký</div>
+        <div class="mono-num text-[18px] font-medium text-emeraldAccent">22/11/2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 02: NỘI DUNG BUỔI HỌP
+       ========================================== -->
+  <section class="slide" data-title="Nội dung buổi họp">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-2">MỤC LỤC LÀM VIỆC</div>
+      <h2 class="text-[32px] font-bold text-textMain">Nội dung buổi họp</h2>
+    </div>
+
+    <div class="my-auto grid grid-cols-1 gap-6 max-w-4xl">
+      <div class="flex items-baseline gap-8 border-b border-borderSubtle pb-5">
+        <span class="mono-num text-xl font-semibold text-cyanAccent w-20 shrink-0">Mục 01</span>
+        <div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-1">Giới thiệu thành viên &amp; Cách làm việc chung</h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">Làm quen nhanh giữa 5 thành viên và thống nhất 3 nguyên tắc phối hợp hàng ngày.</p>
+        </div>
+      </div>
+
+      <div class="flex items-baseline gap-8 border-b border-borderSubtle pb-5">
+        <span class="mono-num text-xl font-semibold text-cyanAccent w-20 shrink-0">Mục 02</span>
+        <div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-1">Tổng quan cuộc thi, cấu trúc Agile Scrum &amp; Chi tiết <span class="mono-num">5</span> Role</h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">Nắm lộ trình 3 vòng thi, khung Agile Scrum (3-5-3) và đầu việc cụ thể của BA, PO, PM, DEV, QA.</p>
+        </div>
+      </div>
+
+      <div class="flex items-baseline gap-8 border-b border-borderSubtle pb-5">
+        <span class="mono-num text-xl font-semibold text-cyanAccent w-20 shrink-0">Mục 03</span>
+        <div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-1">Chọn Role &amp; Chia vai thi Vòng <span class="mono-num">1</span></h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">Điền nguyện vọng và chốt vị trí đăng ký dự thi Online Assessment cho cả 5 thành viên.</p>
+        </div>
+      </div>
+
+      <div class="flex items-baseline gap-8 pb-2">
+        <span class="mono-num text-xl font-semibold text-emeraldAccent w-20 shrink-0">Mục 04</span>
+        <div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-1">Kế hoạch ôn tập &amp; Phân việc tuần đầu (Vòng <span class="mono-num">1</span>)</h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">Lộ trình 4 chặng, lịch ôn tập chi tiết từ <span class="mono-num">19/11 – 26/11</span>, hướng tiếp cận AI Agent và chốt thông tin đăng ký.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Mục tiêu kết thúc buổi họp: Chốt xong Role Vòng <span class="mono-num">1</span> và hoàn tất thông tin nộp đơn đăng ký vào ngày mai (<span class="mono-num">19/11</span>).
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 03: CÁCH LÀM VIỆC CHUNG
+       ========================================== -->
+  <section class="slide" data-title="Cách làm việc chung">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-2">MỤC 01 • NGUYÊN TẮC PHỐI HỢP</div>
+      <h2 class="text-[32px] font-bold text-textMain mb-2">Cách làm việc chung</h2>
+      <p class="text-[17px] text-textMuted prose-measure leading-relaxed">
+        <span class="mono-num">5</span> người lần đầu làm việc chung và cùng mới tiếp cận cuộc thi này, thống nhất <span class="mono-num">3</span> nguyên tắc cơ bản để dễ phối hợp:
+      </p>
+    </div>
+
+    <div class="my-auto grid grid-cols-3 gap-10 pt-4">
+      <div class="border-t-2 border-cyanAccent pt-5">
+        <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-2">01 / GIAO TIẾP</div>
+        <h3 class="text-[20px] font-semibold text-textMain mb-3">Phản hồi tin nhắn</h3>
+        <ul class="space-y-3 text-[16px] text-textMuted leading-relaxed">
+          <li>• Cố gắng phản hồi nhóm trong vòng <span class="mono-num text-textMain font-medium">2 tiếng</span> (khung <span class="mono-num text-textMain">08:00 – 23:00</span>).</li>
+          <li>• Bận việc đột xuất thì nhắn báo trước một câu để cả nhóm chủ động sắp xếp.</li>
+        </ul>
+      </div>
+
+      <div class="border-t-2 border-cyanAccent pt-5">
+        <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-2">02 / QUỸ THỜI GIAN</div>
+        <h3 class="text-[20px] font-semibold text-textMain mb-3">Thời gian cam kết</h3>
+        <ul class="space-y-3 text-[16px] text-textMuted leading-relaxed">
+          <li>• Thu xếp khoảng <span class="mono-num text-textMain font-medium">1.5 – 2 tiếng/ngày</span> từ nay đến <span class="mono-num text-textMain">27/11</span>.</li>
+          <li>• Tập trung xem tài liệu khung Scrum và hoàn thành phần việc được chia đúng hạn.</li>
+        </ul>
+      </div>
+
+      <div class="border-t-2 border-emeraldAccent pt-5">
+        <div class="mono-num text-xs text-emeraldAccent uppercase tracking-wider mb-2">03 / THÁI ĐỘ LÀM VIỆC</div>
+        <h3 class="text-[20px] font-semibold text-textMain mb-3">Trao đổi thẳng thắn</h3>
+        <ul class="space-y-3 text-[16px] text-textMuted leading-relaxed">
+          <li>• Không rõ phần nào thì hỏi luôn trên nhóm để cả đội cùng gỡ.</li>
+          <li>• Góp ý trực tiếp vào công việc trên tinh thần hỗ trợ nhau cùng tiến bộ.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-borderSubtle pt-4 flex items-center justify-between text-sm text-textMuted">
+      <span>Ưu tiên sự rõ ràng, chủ động báo sớm khi có vướng mắc về lịch học hoặc công việc cá nhân.</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 04: TỔNG QUAN HACK4BIZ 2026 & LỘ TRÌNH 3 VÒNG
+       ========================================== -->
+  <section class="slide" data-title="Tổng quan Hack4Biz 2026 & Lộ trình 3 vòng">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-2">MỤC 02 • THÔNG TIN CUỘC THI</div>
+      <h2 class="text-[32px] font-bold text-textMain mb-2">Tổng quan Hack4Biz 2026 &amp; Lộ trình <span class="mono-num">3</span> vòng</h2>
+      <p class="text-[17px] text-textMuted leading-relaxed max-w-4xl">
+        Mô phỏng quy trình làm sản phẩm theo <strong class="text-textMain font-semibold">Agile Scrum</strong>, ứng dụng <strong class="text-textMain font-semibold">AI Agent</strong> giải bài toán Ngân hàng của <strong class="text-textMain font-semibold">VPBank</strong> (BUV tổ chức).
+      </p>
+    </div>
+
+    <div class="my-auto flex items-stretch gap-4">
+      <!-- Vòng 1 -->
+      <div class="flex-1 bg-surface border border-borderSubtle p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="mono-num text-xs font-semibold uppercase tracking-wider text-cyanAccent">VÒNG 1 • ONLINE ASSESSMENT</span>
+            <span class="mono-num text-xs text-textMuted">27/11/2026</span>
+          </div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-3">Kiểm tra kiến thức nền tảng</h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">
+            Thi trắc nghiệm kiến thức chuyên môn từng Role kết hợp quy trình vận hành <strong class="text-textMain font-medium">Agile Scrum</strong>.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-borderSubtle flex items-center justify-between">
+          <span class="text-xs text-textMuted uppercase">Chỉ tiêu vượt qua</span>
+          <span class="mono-num text-sm font-semibold text-emeraldAccent">Lấy Top 20 → Vòng 2</span>
+        </div>
+      </div>
+
+      <div class="flex items-center text-textMuted mono-num text-xl px-1">→</div>
+
+      <!-- Vòng 2 -->
+      <div class="flex-1 bg-surface border border-borderSubtle p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="mono-num text-xs font-semibold uppercase tracking-wider text-cyanAccent">VÒNG 2 • MVP BUILDING</span>
+            <span class="mono-num text-xs text-textMuted">08/12 – 23/12/2026</span>
+          </div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-3">Phân tích nghiệp vụ &amp; Dựng MVP</h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">
+            Nộp bộ tài liệu phân tích nghiệp vụ (BRD, sơ đồ luồng) + Code bản <strong class="text-textMain font-medium">MVP AI Agent</strong> chạy được.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-borderSubtle flex items-center justify-between">
+          <span class="text-xs text-textMuted uppercase">Chỉ tiêu vượt qua</span>
+          <span class="mono-num text-sm font-semibold text-emeraldAccent">Lấy Top 4 → Vòng 3</span>
+        </div>
+      </div>
+
+      <div class="flex items-center text-textMuted mono-num text-xl px-1">→</div>
+
+      <!-- Vòng 3 -->
+      <div class="flex-1 bg-surface border border-borderSubtle p-6 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="mono-num text-xs font-semibold uppercase tracking-wider text-cyanAccent">VÒNG 3 • 32H HACKATHON</span>
+            <span class="mono-num text-xs text-textMuted">09/01 – 10/01/2027</span>
+          </div>
+          <h3 class="text-[20px] font-semibold text-textMain mb-3">Xử lý Change Request &amp; Bảo vệ</h3>
+          <p class="text-[16px] text-textMuted leading-relaxed">
+            Thi Offline tại BUV (Ecopark). Nhận <strong class="text-textMain font-medium">Change Request (CR)</strong> từ BTC, code bổ sung trực tiếp trên source Vòng <span class="mono-num">2</span> và thuyết trình.
+          </p>
+        </div>
+        <div class="mt-6 pt-4 border-t border-borderSubtle flex items-center justify-between">
+          <span class="text-xs text-textMuted uppercase">Hình thức</span>
+          <span class="mono-num text-sm font-semibold text-textMain">Offline 32h tại BUV</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Trọng tâm trước mắt: Vượt qua Vòng <span class="mono-num">1</span> ngày <span class="mono-num">27/11/2026</span> để vào Top <span class="mono-num">20</span>.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 05: CẤU TRÚC AGILE SCRUM – KHUNG CỐT LÕI (3-5-3)
+       ========================================== -->
+  <section class="slide" data-title="Cấu trúc Agile Scrum – Khung cốt lõi (3-5-3)">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 02 • KIẾN THỨC TRỌNG TÂM</div>
+      <h2 class="text-[30px] font-bold text-textMain">Cấu trúc Agile Scrum – Khung cốt lõi (<span class="mono-num">3-5-3</span>)</h2>
+    </div>
+
+    <div class="my-auto grid grid-cols-3 gap-8 items-start">
+      <!-- Cột 1: 3 Vai trò -->
+      <div class="border-l border-borderSubtle pl-5 space-y-4">
+        <div class="mono-num text-sm font-semibold text-cyanAccent uppercase tracking-wider">1. 3 Vai trò (Scrum Roles)</div>
+        <div>
+          <h4 class="text-[16px] font-semibold text-textMain">Product Owner (PO)</h4>
+          <p class="text-[15px] text-textMuted leading-relaxed">Tối đa hóa giá trị sản phẩm, quản lý và sắp xếp thứ tự ưu tiên <em>Product Backlog</em>.</p>
+        </div>
+        <div>
+          <h4 class="text-[16px] font-semibold text-textMain">Scrum Master (gắn với PM)</h4>
+          <p class="text-[15px] text-textMuted leading-relaxed">Đảm bảo team hiểu và chạy đúng quy trình Scrum, gỡ bỏ trở ngại cho team.</p>
+        </div>
+        <div>
+          <h4 class="text-[16px] font-semibold text-textMain">Developers (bao gồm BA, Dev, QA)</h4>
+          <p class="text-[15px] text-textMuted leading-relaxed">Tự tổ chức để biến các mục trong Backlog thành sản phẩm chạy được sau mỗi Sprint.</p>
+        </div>
+      </div>
+
+      <!-- Cột 2: 5 Sự kiện -->
+      <div class="border-l border-borderSubtle pl-5 space-y-3">
+        <div class="mono-num text-sm font-semibold text-cyanAccent uppercase tracking-wider">2. 5 Sự kiện (Scrum Events)</div>
+        <div>
+          <h4 class="text-[15px] font-semibold text-textMain">Sprint</h4>
+          <p class="text-[14.5px] text-textMuted leading-snug">Chu kỳ lặp cố định (<span class="mono-num">1–4</span> tuần; ở Vòng <span class="mono-num">2</span> chia làm <span class="mono-num">2</span> Sprint, mỗi Sprint <span class="mono-num">7</span> ngày) tạo bản tăng trưởng sản phẩm.</p>
+        </div>
+        <div>
+          <h4 class="text-[15px] font-semibold text-textMain">Sprint Planning</h4>
+          <p class="text-[14.5px] text-textMuted leading-snug">Họp đầu Sprint để chốt <em>Sprint Goal</em>, chọn task từ Product Backlog sang Sprint Backlog và chia việc.</p>
+        </div>
+        <div>
+          <h4 class="text-[15px] font-semibold text-textMain">Daily Scrum</h4>
+          <p class="text-[14.5px] text-textMuted leading-snug">Họp ngắn <span class="mono-num">15</span> phút mỗi ngày đồng bộ tiến độ (Hôm qua làm gì – Hôm nay làm gì – Có vướng gì không).</p>
+        </div>
+        <div>
+          <h4 class="text-[15px] font-semibold text-textMain">Sprint Review</h4>
+          <p class="text-[14.5px] text-textMuted leading-snug">Cuối Sprint demo tính năng đã làm được cho Stakeholder/PO nghiệm thu và lấy phản hồi.</p>
+        </div>
+        <div>
+          <h4 class="text-[15px] font-semibold text-textMain">Sprint Retrospective</h4>
+          <p class="text-[14.5px] text-textMuted leading-snug">Họp nội bộ cuối Sprint để nhìn lại cách làm việc nhóm, rút kinh nghiệm cải tiến cho Sprint sau.</p>
+        </div>
+      </div>
+
+      <!-- Cột 3: 3 Tạo tác -->
+      <div class="border-l border-borderSubtle pl-5 space-y-4">
+        <div class="mono-num text-sm font-semibold text-cyanAccent uppercase tracking-wider">3. 3 Tạo tác (Scrum Artifacts)</div>
+        <div>
+          <h4 class="text-[16px] font-semibold text-textMain">Product Backlog</h4>
+          <p class="text-[15px] text-textMuted leading-relaxed">Danh sách toàn bộ tính năng, yêu cầu của sản phẩm được xếp theo độ ưu tiên (do PO quản lý).</p>
+        </div>
+        <div>
+          <h4 class="text-[16px] font-semibold text-textMain">Sprint Backlog</h4>
+          <p class="text-[15px] text-textMuted leading-relaxed">Tập hợp các task được chọn từ Product Backlog để làm trong Sprint hiện tại kèm kế hoạch thực hiện.</p>
+        </div>
+        <div>
+          <h4 class="text-[16px] font-semibold text-textMain">Increment (Bản tăng trưởng)</h4>
+          <p class="text-[15px] text-textMuted leading-relaxed">Phần sản phẩm hoàn chỉnh, chạy được và đạt tiêu chuẩn <em>Definition of Done</em> sau mỗi Sprint.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-borderSubtle pt-3 text-sm text-textMuted">
+      Chuẩn Scrum Guide: Nắm chắc sự phân tách trách nhiệm giữa <strong class="text-textMain font-medium">PO</strong> (quản lý giá trị &amp; thứ tự ưu tiên), <strong class="text-textMain font-medium">PM/Scrum Master</strong> (quy trình &amp; tiến độ) và <strong class="text-textMain font-medium">Developers</strong> (thực thi kỹ thuật &amp; kiểm thử).
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 06: CẤU TRÚC AGILE SCRUM – LUỒNG VẬN HÀNH & KHÁI NIỆM TRỌNG TÂM
+       ========================================== -->
+  <section class="slide" data-title="Cấu trúc Agile Scrum – Luồng vận hành & Khái niệm trọng tâm">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 02 • VẬN HÀNH SPRINT</div>
+      <h2 class="text-[30px] font-bold text-textMain">Cấu trúc Agile Scrum – Luồng vận hành &amp; Khái niệm trọng tâm</h2>
+    </div>
+
+    <!-- Sơ đồ luồng chạy 1 vòng Sprint -->
+    <div class="my-2">
+      <div class="text-xs uppercase tracking-wider text-textMuted mb-2">Sơ đồ luồng chạy <span class="mono-num">1</span> vòng Sprint</div>
+      <div class="flex items-center justify-between gap-1.5">
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-textMain flex-1 text-center">Product Backlog</div>
+        <span class="mono-num text-textMuted text-xs">→</span>
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-textMain flex-1 text-center">Sprint Planning</div>
+        <span class="mono-num text-textMuted text-xs">→</span>
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-textMain flex-1 text-center">Sprint Backlog</div>
+        <span class="mono-num text-textMuted text-xs">→</span>
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-cyanAccent flex-1 text-center">Thực thi &amp; Daily (<span class="mono-num">15p</span>/ngày)</div>
+        <span class="mono-num text-textMuted text-xs">→</span>
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-emeraldAccent flex-1 text-center">Increment</div>
+        <span class="mono-num text-textMuted text-xs">→</span>
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-textMain flex-1 text-center">Sprint Review (Demo)</div>
+        <span class="mono-num text-textMuted text-xs">→</span>
+        <div class="bg-surface border border-borderSubtle px-3 py-2.5 text-sm font-medium text-textMain flex-1 text-center">Sprint Retrospective</div>
+      </div>
+    </div>
+
+    <!-- Các khái niệm & chỉ số thường gặp -->
+    <div class="my-auto grid grid-cols-2 gap-x-10 gap-y-4 pt-2">
+      <div class="border-b border-borderSubtle pb-3">
+        <h4 class="text-[16px] font-semibold text-textMain mb-1">User Story &amp; Acceptance Criteria (AC)</h4>
+        <p class="text-[15px] text-textMuted leading-relaxed">
+          Mô tả tính năng dưới góc nhìn người dùng (<em>"Là [ai], tôi muốn [làm gì], để [đạt lợi ích gì]"</em>) kèm điều kiện nghiệm thu rõ ràng (thường viết theo chuẩn <em>Given - When - Then</em>).
+        </p>
+      </div>
+
+      <div class="border-b border-borderSubtle pb-3">
+        <h4 class="text-[16px] font-semibold text-textMain mb-1">Story Points &amp; Planning Poker</h4>
+        <p class="text-[15px] text-textMuted leading-relaxed">
+          Đơn vị ước lượng độ phức tạp/công sức của task (dùng dãy Fibonacci: <span class="mono-num text-textMain">1, 2, 3, 5, 8, 13...</span>) thay vì đoán giờ tuyệt đối.
+        </p>
+      </div>
+
+      <div class="border-b border-borderSubtle pb-3">
+        <h4 class="text-[16px] font-semibold text-textMain mb-1">Definition of Done (DoD) vs. Definition of Ready (DoR)</h4>
+        <p class="text-[15px] text-textMuted leading-relaxed">
+          <em>DoR</em> là tiêu chuẩn để <span class="mono-num">1</span> task đủ điều kiện đưa vào Sprint; <em>DoD</em> là tiêu chuẩn bắt buộc (code xong, review, test pass, có tài liệu) để tính là hoàn thành.
+        </p>
+      </div>
+
+      <div class="border-b border-borderSubtle pb-3">
+        <h4 class="text-[16px] font-semibold text-textMain mb-1">Velocity (Vận tốc) &amp; Burndown Chart</h4>
+        <p class="text-[15px] text-textMuted leading-relaxed">
+          <em>Velocity:</em> Tổng Story Points hoàn thành trung bình trong <span class="mono-num">1</span> Sprint để dự đoán sức làm việc. <em>Burndown Chart:</em> Biểu đồ theo dõi lượng công việc còn lại theo từng ngày trong Sprint.
+        </p>
+      </div>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Lưu ý: Đây là nhóm câu hỏi tình huống xuất hiện nhiều nhất trong bài thi Online Assessment Vòng <span class="mono-num">1</span>.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 07: CHI TIẾT CÔNG VIỆC 5 ROLE – KHỐI NGHIỆP VỤ & QUẢN LÝ (BA, PO, PM)
+       ========================================== -->
+  <section class="slide" data-title="Chi tiết 5 Role – Khối Nghiệp vụ & Quản lý (BA, PO, PM)">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 02 • PHÂN TÍCH CHUYÊN MÔN</div>
+      <h2 class="text-[30px] font-bold text-textMain">Chi tiết công việc <span class="mono-num">5</span> Role – Khối Nghiệp vụ &amp; Quản lý (BA, PO, PM)</h2>
+    </div>
+
+    <div class="my-auto grid grid-cols-3 gap-7 items-stretch">
+      <!-- BA -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-1">ROLE 01 • ĐÃ CHỐT (NEU)</div>
+          <h3 class="text-[19px] font-bold text-textMain mb-3">BA (Business Analyst – Phân tích nghiệp vụ)</h3>
+          <div class="mb-3">
+            <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Vai trò</span>
+            <p class="text-[15px] text-textMain leading-relaxed">Cầu nối giữa bài toán kinh doanh của ngân hàng (VPBank) và đội ngũ kỹ thuật.</p>
+          </div>
+          <div>
+            <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Công việc cụ thể</span>
+            <p class="text-[15px] text-textMuted leading-relaxed">
+              Khảo sát và làm rõ yêu cầu nghiệp vụ; viết tài liệu <strong class="text-textMain font-medium">BRD (Business Requirements Document)</strong>, <strong class="text-textMain font-medium">SRS</strong>; phân rã thành <strong class="text-textMain font-medium">User Stories</strong> (chuẩn INVEST) và <strong class="text-textMain font-medium">Acceptance Criteria</strong>; vẽ sơ đồ trực quan (<strong class="text-textMain font-medium">Business Flow / BPMN</strong>, <strong class="text-textMain font-medium">Use Case Diagram</strong>, <strong class="text-textMain font-medium">Sequence Diagram</strong>, Wireframe cơ bản).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PO -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-1">ROLE 02 • QUẢN TRỊ SẢN PHẨM</div>
+          <h3 class="text-[19px] font-bold text-textMain mb-3">PO (Product Owner – Chủ sở hữu sản phẩm)</h3>
+          <div class="mb-3">
+            <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Vai trò</span>
+            <p class="text-[15px] text-textMain leading-relaxed">Định hướng "Làm cái gì" và "Làm cái nào trước" để sản phẩm mang lại giá trị cao nhất.</p>
+          </div>
+          <div>
+            <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Công việc cụ thể</span>
+            <p class="text-[15px] text-textMuted leading-relaxed">
+              Xây dựng tầm nhìn sản phẩm (Product Vision); quản lý <strong class="text-textMain font-medium">Product Backlog</strong>; sắp xếp độ ưu tiên tính năng theo các khung <strong class="text-textMain font-medium">MoSCoW</strong> (<em>Must-have, Should-have, Could-have, Won't-have</em>) hoặc <strong class="text-textMain font-medium">RICE / Value vs. Effort</strong>; làm việc với Stakeholder và nghiệm thu sản phẩm ở Sprint Review.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PM -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-1">ROLE 03 • ĐIỀU PHỐI &amp; TIẾN ĐỘ</div>
+          <h3 class="text-[19px] font-bold text-textMain mb-3">PM (Project Manager – Quản lý dự án / Scrum Master)</h3>
+          <div class="mb-3">
+            <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Vai trò</span>
+            <p class="text-[15px] text-textMain leading-relaxed">Giữ nhịp độ, điều phối nguồn lực và đảm bảo dự án về đích đúng hạn.</p>
+          </div>
+          <div>
+            <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Công việc cụ thể</span>
+            <p class="text-[15px] text-textMuted leading-relaxed">
+              Lập kế hoạch tổng thể (Timeline/Milestone), phân bổ nhân sự, theo dõi tiến độ qua <strong class="text-textMain font-medium">Burndown/Burnup Chart</strong>; quản trị rủi ro (Risk Register) và xử lý điểm nghẽn; tổ chức các buổi họp Scrum và đảm bảo team tuân thủ quy trình Agile.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Các thành viên Dev nhận vai PO hoặc PM ở Vòng <span class="mono-num">1</span> sẽ ôn tập kỹ các khung ưu tiên (MoSCoW, RICE) và quản trị tiến độ Scrum.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 08: CHI TIẾT CÔNG VIỆC 5 ROLE – KHỐI KỸ THUẬT & CHẤT LƯỢNG (DEV, QA)
+       ========================================== -->
+  <section class="slide" data-title="Chi tiết 5 Role – Khối Kỹ thuật & Chất lượng (DEV, QA)">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 02 • PHÂN TÍCH CHUYÊN MÔN</div>
+      <h2 class="text-[30px] font-bold text-textMain">Chi tiết công việc <span class="mono-num">5</span> Role – Khối Kỹ thuật &amp; Chất lượng (DEV, QA)</h2>
+    </div>
+
+    <div class="my-auto grid grid-cols-2 gap-8">
+      <!-- DEV -->
+      <div class="bg-surface border border-borderSubtle p-6">
+        <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-1">ROLE 04 • XÂY DỰNG HỆ THỐNG</div>
+        <h3 class="text-[20px] font-bold text-textMain mb-3">DEV (Developer – Kỹ sư phát triển)</h3>
+        <div class="mb-3">
+          <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Vai trò</span>
+          <p class="text-[15.5px] text-textMain leading-relaxed">Hiện thực hóa giải pháp và tài liệu nghiệp vụ thành hệ thống AI Agent chạy thực tế.</p>
+        </div>
+        <div>
+          <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Công việc cụ thể</span>
+          <p class="text-[15.5px] text-textMuted leading-relaxed">
+            Thiết kế kiến trúc hệ thống (System Architecture), thiết kế Database và <strong class="text-textMain font-medium">RESTful API</strong>; lập trình luồng AI Agent (<strong class="text-textMain font-medium">RAG, Tool Calling, Guardrails</strong>) và giao diện; quản lý mã nguồn qua <strong class="text-textMain font-medium">Git Flow</strong>, CI/CD; tự ước lượng task (Story Points) và xử lý <strong class="text-textMain font-medium">Change Request</strong> ở Vòng <span class="mono-num">3</span>.
+          </p>
+        </div>
+      </div>
+
+      <!-- QA -->
+      <div class="bg-surface border border-borderSubtle p-6">
+        <div class="mono-num text-xs text-cyanAccent uppercase tracking-wider mb-1">ROLE 05 • KIỂM SOÁT CHẤT LƯỢNG</div>
+        <h3 class="text-[20px] font-bold text-textMain mb-3">QA (Quality Assurance / Tester – Đảm bảo chất lượng)</h3>
+        <div class="mb-3">
+          <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Vai trò</span>
+          <p class="text-[15.5px] text-textMain leading-relaxed">Kiểm soát chất lượng, phát hiện lỗi sớm và đảm bảo sản phẩm chạy đúng yêu cầu nghiệp vụ.</p>
+        </div>
+        <div>
+          <span class="text-xs uppercase tracking-wider text-textMuted block mb-1">Công việc cụ thể</span>
+          <p class="text-[15.5px] text-textMuted leading-relaxed">
+            Dựa vào BRD và Acceptance Criteria để viết <strong class="text-textMain font-medium">Test Plan</strong>, <strong class="text-textMain font-medium">Test Case</strong> (gồm happy case và edge case); thực hiện các cấp độ kiểm thử (<strong class="text-textMain font-medium">Unit, Integration, System, UAT</strong>); quản lý vòng đời lỗi (<strong class="text-textMain font-medium">Bug Life Cycle</strong>); kiểm thử độ chính xác và khả năng chống bịa đặt (hallucination) của AI.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Luồng phối hợp 5 Role -->
+    <div class="border-t border-borderSubtle pt-4">
+      <div class="text-xs uppercase tracking-wider text-emeraldAccent font-semibold mb-2">Luồng phối hợp <span class="mono-num">5</span> Role trong dự án</div>
+      <div class="text-[15.5px] text-textMain leading-relaxed">
+        <span class="font-semibold">BA</span> làm rõ bài toán &amp; vẽ luồng <span class="mono-num text-textMuted mx-1">→</span>
+        <span class="font-semibold">PO</span> chốt tính năng ưu tiên <span class="mono-num text-textMuted mx-1">→</span>
+        <span class="font-semibold">PM</span> chia Sprint &amp; giữ tiến độ <span class="mono-num text-textMuted mx-1">→</span>
+        <span class="font-semibold">DEV</span> dựng kiến trúc &amp; code AI Agent <span class="mono-num text-textMuted mx-1">→</span>
+        <span class="font-semibold">QA</span> kiểm thử bám sát AC của BA.
+        <span class="text-textMuted italic ml-2">(Ở Vòng <span class="mono-num">2</span> &amp; <span class="mono-num">3</span>, cả <span class="mono-num">4</span> thành viên Dev sẽ cùng tham gia code).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 09: CHỌN ROLE & CHIA VAI VÒNG 1 (INTERACTIVE)
+       ========================================== -->
+  <section class="slide" data-title="Chọn Role & Chia vai Vòng 1">
+    <div class="flex items-end justify-between">
+      <div>
+        <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 03 • TƯƠNG TÁC TRỰC TIẾP</div>
+        <h2 class="text-[30px] font-bold text-textMain">Chọn Role &amp; Chia vai Vòng <span class="mono-num">1</span></h2>
+        <p class="text-[16px] text-textMuted mt-1">
+          Quy tắc: Ghế <strong class="text-textMain font-semibold">BA</strong> đã chốt cho thành viên NEU. <span class="mono-num">4</span> thành viên Dev chọn <strong class="text-textMain font-semibold">tối đa <span class="mono-num">2</span> nguyện vọng</strong> trong <span class="mono-num">4</span> vị trí: <span class="mono-num text-cyanAccent">PM, PO, DEV, QA</span>.
+        </p>
+      </div>
+      <button id="resetRoleBtn" type="button" class="px-3.5 py-1.5 text-xs mono-num border border-borderInput text-textMuted hover:text-textMain hover:border-textMuted rounded transition">
+        Reset bảng
+      </button>
+    </div>
+
+    <div class="my-auto">
+      <table class="editorial-table">
+        <thead>
+          <tr>
+            <th class="w-16">#</th>
+            <th class="w-1/4">Tên thành viên</th>
+            <th class="w-1/5">Nhóm</th>
+            <th class="w-1/5">Nguyện vọng 1</th>
+            <th class="w-1/5">Nguyện vọng 2</th>
+            <th class="w-1/5">Chốt Role Vòng 1</th>
+          </tr>
+        </thead>
+        <tbody id="roleTableBody">
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="border-t border-borderSubtle pt-4 flex items-center justify-between text-[15px] text-textMuted">
+      <p>
+        <span class="text-emeraldAccent font-medium">Ghi chú:</span> <em>"Role này dùng để đăng ký hồ sơ và làm bài test Vòng <span class="mono-num">1</span> (<span class="mono-num">27/11</span>). Sang Vòng <span class="mono-num">2</span> &amp; <span class="mono-num">3</span>, cả <span class="mono-num">4</span> thành viên Dev đều cùng tham gia thiết kế và code AI Agent."</em>
+      </p>
+      <span id="roleStatusBadge" class="mono-num text-xs text-textMuted">Tự động lưu localStorage</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 10: LỘ TRÌNH 4 CHẶNG XUYÊN SUỐT CUỘC THI
+       ========================================== -->
+  <section class="slide" data-title="Lộ trình 4 chặng xuyên suốt cuộc thi">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 04 • KẾ HOẠCH TỔNG THỂ</div>
+      <h2 class="text-[30px] font-bold text-textMain">Lộ trình <span class="mono-num">4</span> chặng xuyên suốt cuộc thi</h2>
+    </div>
+
+    <div class="my-auto grid grid-cols-4 gap-4 items-stretch">
+      <!-- Chặng 1 -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="mono-num text-xs font-semibold text-emeraldAccent uppercase">CHẶNG 1</span>
+            <span class="mono-num text-xs text-cyanAccent">9 ngày</span>
+          </div>
+          <div class="mono-num text-sm text-textMain font-medium mb-3">18/11 – 27/11</div>
+          <h3 class="text-[18px] font-semibold text-textMain mb-2">Ôn thi Vòng 1</h3>
+          <p class="text-[15px] text-textMuted leading-relaxed">
+            Tập trung ôn Agile Scrum và kiến thức từng Role cho bài test online ngày <span class="mono-num text-textMain">27/11</span>.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-borderSubtle text-xs text-emeraldAccent mono-num">
+          Đang triển khai
+        </div>
+      </div>
+
+      <!-- Chặng 2 -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="mono-num text-xs font-semibold text-cyanAccent uppercase">CHẶNG 2</span>
+            <span class="mono-num text-xs text-cyanAccent">10 ngày</span>
+          </div>
+          <div class="mono-num text-sm text-textMain font-medium mb-3">28/11 – 07/12</div>
+          <h3 class="text-[18px] font-semibold text-textMain mb-2">Làm quen AI Agent &amp; Dựng khung dự án</h3>
+          <p class="text-[15px] text-textMuted leading-relaxed">
+            <span class="mono-num">4</span> Dev thực hành Cursor/Claude Code theo hướng Spec-driven, dựng sẵn Boilerplate (FastAPI + LangGraph/OpenAI SDK + RAG). BA tìm hiểu trước hệ sinh thái sản phẩm VPBank.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-borderSubtle text-xs text-textMuted mono-num">
+          Chuẩn bị kỹ thuật &amp; domain
+        </div>
+      </div>
+
+      <!-- Chặng 3 -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="mono-num text-xs font-semibold text-cyanAccent uppercase">CHẶNG 3</span>
+            <span class="mono-num text-xs text-cyanAccent">16 ngày</span>
+          </div>
+          <div class="mono-num text-sm text-textMain font-medium mb-3">08/12 – 23/12</div>
+          <h3 class="text-[18px] font-semibold text-textMain mb-2">Vòng 2 – Build MVP</h3>
+          <p class="text-[15px] text-textMuted leading-relaxed">
+            Chia <span class="mono-num">2</span> Sprint (<span class="mono-num">7</span> ngày/Sprint). Hoàn thiện BRD + Code MVP + Quay video demo.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-borderSubtle text-xs text-textMuted mono-num">
+          2 Sprint × 7 ngày
+        </div>
+      </div>
+
+      <!-- Chặng 4 -->
+      <div class="bg-surface border border-borderSubtle p-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="mono-num text-xs font-semibold text-cyanAccent uppercase">CHẶNG 4</span>
+            <span class="mono-num text-xs text-cyanAccent">Chung kết</span>
+          </div>
+          <div class="mono-num text-sm text-textMain font-medium mb-3">24/12 – 10/01/2027</div>
+          <h3 class="text-[18px] font-semibold text-textMain mb-2">Vòng 3 – 32h Hackathon</h3>
+          <p class="text-[15px] text-textMuted leading-relaxed">
+            Dọn gọn source code Vòng <span class="mono-num">2</span>, viết file <span class="mono-num text-textMain">ARCHITECTURE.md</span> để AI hỗ trợ sửa code nhanh khi nhận Change Request tại BUV.
+          </p>
+        </div>
+        <div class="mt-4 pt-3 border-t border-borderSubtle text-xs text-textMuted mono-num">
+          Offline tại BUV Ecopark
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Tận dụng tốt <span class="mono-num">10</span> ngày Chặng <span class="mono-num">2</span> (<span class="mono-num">28/11 – 07/12</span>) để dựng sẵn khung code trước khi nhận đề bài chính thức của Vòng <span class="mono-num">2</span>.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 11: LỊCH CÔNG VIỆC & ÔN TẬP CỤ THỂ TUẦN 1 (19/11 – 26/11)
+       ========================================== -->
+  <section class="slide" data-title="Lịch công việc & Ôn tập cụ thể Tuần 1 (19/11 – 26/11)">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 04 • KẾ HOẠCH HÀNH ĐỘNG TUẦN 1</div>
+      <h2 class="text-[30px] font-bold text-textMain">Lịch công việc &amp; Ôn tập cụ thể Tuần <span class="mono-num">1</span> (<span class="mono-num">19/11 – 26/11</span>)</h2>
+    </div>
+
+    <div class="my-auto">
+      <table class="editorial-table">
+        <thead>
+          <tr>
+            <th class="w-40">Thời gian</th>
+            <th class="w-2/5">Đầu việc</th>
+            <th class="w-40">Phụ trách</th>
+            <th>Kết quả đầu ra</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono-num font-medium text-emeraldAccent">19/11 (Mai)</td>
+            <td class="text-textMain">Nộp đơn đăng ký sớm (hạn <span class="mono-num">22/11</span>) &amp; tạo Notion/GitHub/Discord</td>
+            <td class="text-textMuted">PM + Cả đội</td>
+            <td class="text-textMuted">Gửi ảnh xác nhận nộp form thành công vào nhóm.</td>
+          </tr>
+          <tr>
+            <td class="mono-num font-medium text-cyanAccent">20/11 – 21/11</td>
+            <td class="text-textMain">Ôn kỹ khung Agile Scrum (<span class="mono-num">3</span> Roles, <span class="mono-num">5</span> Events, <span class="mono-num">3</span> Artifacts, Story Points, DoD)</td>
+            <td class="text-textMuted">Cả <span class="mono-num">5</span> người</td>
+            <td class="text-textMuted">Ghi chú sơ đồ quy trình Scrum lên Notion.</td>
+          </tr>
+          <tr>
+            <td class="mono-num font-medium text-cyanAccent">22/11 – 23/11</td>
+            <td class="text-textMain">Ôn chuyên sâu kiến thức theo từng Role đã chốt (BA, PO, PM, DEV, QA)</td>
+            <td class="text-textMuted">Từng Role</td>
+            <td class="text-textMuted">Nộp bản tóm tắt <span class="mono-num">1–2</span> trang A4 lên Notion để đọc chéo.</td>
+          </tr>
+          <tr>
+            <td class="mono-num font-medium text-cyanAccent">24/11</td>
+            <td class="text-textMain">Mỗi người tự soạn <span class="mono-num">20</span> câu trắc nghiệm tình huống của vị trí mình</td>
+            <td class="text-textMuted">Cả <span class="mono-num">5</span> người</td>
+            <td class="text-textMuted">Tổng hợp đủ bộ <span class="mono-num">100</span> câu trên Quizizz / Forms.</td>
+          </tr>
+          <tr>
+            <td class="mono-num font-medium text-cyanAccent">25/11 (Tối)</td>
+            <td class="text-textMain">Làm thử bộ <span class="mono-num">100</span> câu &amp; họp chữa chéo các câu sai</td>
+            <td class="text-textMuted">Cả đội</td>
+            <td class="text-textMuted">Nắm chắc mảng chính &amp; hiểu góc nhìn các Role khác.</td>
+          </tr>
+          <tr>
+            <td class="mono-num font-medium text-emeraldAccent">26/11 (Tối)</td>
+            <td class="text-textMain">Rà soát lại các phần còn hổng &amp; test mic/mạng</td>
+            <td class="text-textMuted">Cả đội</td>
+            <td class="text-textMuted">Sẵn sàng trước giờ thi online ngày <span class="mono-num text-textMain font-medium">27/11</span>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Mỗi thành viên chủ động cập nhật tiến độ lên Notion hàng ngày trước giờ check-in buổi tối.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 12: HƯỚNG TIẾP CẬN AI AGENT CHO 4 DEV (SAU 27/11)
+       ========================================== -->
+  <section class="slide" data-title="Hướng tiếp cận AI Agent cho 4 Dev (Sau 27/11)">
+    <div>
+      <div class="mono-num text-xs text-cyanAccent uppercase tracking-widest mb-1">MỤC 04 • ĐỊNH HƯỚNG KỸ THUẬT</div>
+      <h2 class="text-[30px] font-bold text-textMain mb-1">Hướng tiếp cận AI Agent cho <span class="mono-num">4</span> Dev (Sau <span class="mono-num">27/11</span>)</h2>
+      <p class="text-[16px] text-textMuted">
+        Cách triển khai để kiểm soát được mã nguồn khi chưa có nhiều kinh nghiệm vibecoding / agentic coding:
+      </p>
+    </div>
+
+    <div class="my-auto space-y-6">
+      <!-- Quy trình Spec-Driven -->
+      <div>
+        <div class="text-xs uppercase tracking-wider text-emeraldAccent font-semibold mb-3">1. Quy trình Spec-Driven Development</div>
+        <div class="grid grid-cols-3 gap-4 items-center">
+          <div class="bg-surface border border-borderSubtle p-4">
+            <div class="mono-num text-xs text-cyanAccent mb-1">BƯỚC 01 • ĐẶC TẢ</div>
+            <div class="text-[16px] font-semibold text-textMain mb-1">Tự viết file <span class="mono-num">specs.md</span></div>
+            <p class="text-[14.5px] text-textMuted leading-relaxed">Mô tả rõ đầu vào/đầu ra API, DB schema và luồng dữ liệu trước khi sinh code.</p>
+          </div>
+          <div class="bg-surface border border-borderSubtle p-4">
+            <div class="mono-num text-xs text-cyanAccent mb-1">BƯỚC 02 • SINH CODE THEO MODULE</div>
+            <div class="text-[16px] font-semibold text-textMain mb-1">Cursor / Windsurf / Claude Code</div>
+            <p class="text-[14.5px] text-textMuted leading-relaxed">Chỉ định AI sinh code từng module nhỏ bám sát file spec, không prompt cả cục lớn.</p>
+          </div>
+          <div class="bg-surface border border-borderSubtle p-4">
+            <div class="mono-num text-xs text-emeraldAccent mb-1">BƯỚC 03 • KIỂM SOÁT</div>
+            <div class="text-[16px] font-semibold text-textMain mb-1">Review, Test cục bộ &amp; Git</div>
+            <p class="text-[14.5px] text-textMuted leading-relaxed">Tự đọc hiểu code vừa sinh, chạy test cục bộ và commit Git liên tục theo từng tính năng.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tech Stack gợi ý -->
+      <div>
+        <div class="text-xs uppercase tracking-wider text-cyanAccent font-semibold mb-3">2. Tech Stack gợi ý</div>
+        <div class="grid grid-cols-3 gap-6 border-t border-borderSubtle pt-4">
+          <div>
+            <h4 class="text-[16px] font-semibold text-textMain mb-1">Backend &amp; Agent</h4>
+            <p class="text-[15px] text-textMuted leading-relaxed">
+              Python (<span class="mono-num text-textMain">FastAPI</span>), <span class="mono-num text-textMain">LangGraph</span> hoặc <span class="mono-num text-textMain">OpenAI Agents SDK</span>.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-[16px] font-semibold text-textMain mb-1">Kỹ thuật chính</h4>
+            <p class="text-[15px] text-textMuted leading-relaxed">
+              <strong class="text-textMain font-medium">RAG</strong> (tra cứu tài liệu), <strong class="text-textMain font-medium">Tool Calling</strong> (gọi API nghiệp vụ), <strong class="text-textMain font-medium">Guardrails</strong> (kiểm soát câu trả lời đúng phạm vi).
+            </p>
+          </div>
+          <div>
+            <h4 class="text-[16px] font-semibold text-textMain mb-1">Frontend</h4>
+            <p class="text-[15px] text-textMuted leading-relaxed">
+              <span class="mono-num text-textMain">Next.js</span> hoặc <span class="mono-num text-textMain">Chainlit / Streamlit</span> để dựng giao diện demo nhanh.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-sm text-textMuted">
+      Nguyên tắc: Luôn hiểu rõ luồng hoạt động của code trong repo để sẵn sàng sửa trực tiếp trong <span class="mono-num">32h</span> Hackathon Vòng <span class="mono-num">3</span>.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SLIDE 13: CHỐT THÔNG TIN & VIỆC CẦN LÀM NGAY (INTERACTIVE)
+       ========================================== -->
+  <section class="slide" data-title="Chốt thông tin & Việc cần làm ngay">
+    <div class="flex items-end justify-between">
+      <div>
+        <div class="mono-num text-xs text-emeraldAccent uppercase tracking-widest mb-1">MỤC 04 • HOÀN TẤT HỒ SƠ ĐĂNG KÝ</div>
+        <h2 class="text-[28px] font-bold text-textMain">Chốt thông tin &amp; Việc cần làm ngay</h2>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+          <label for="checkinTimeInput" class="text-xs text-textMuted">Khung giờ check-in tối (<span class="mono-num">10–15p</span>):</label>
+          <input id="checkinTimeInput" type="text" value="22:30" class="mono-num w-20 bg-bgMain border border-borderInput focus:border-emeraldAccent text-textMain text-sm px-2.5 py-1 rounded outline-none text-center" />
+        </div>
+        <button id="copyRegInfoBtn" type="button" class="px-4 py-1.5 text-xs font-semibold bg-emeraldAccent text-bgMain rounded hover:opacity-90 transition">
+          Copy thông tin
+        </button>
+      </div>
+    </div>
+
+    <div class="my-auto">
+      <table class="editorial-table">
+        <thead>
+          <tr>
+            <th class="w-24">Role</th>
+            <th class="w-1/5">Họ tên</th>
+            <th class="w-36">Ngày sinh</th>
+            <th class="w-1/5">Trường / MSSV</th>
+            <th class="w-36">SĐT</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="regTableBody">
+          <!-- Populated by JS, synced with Slide 09 -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="border-t border-borderSubtle pt-3 flex items-center justify-between">
+      <div class="flex items-center gap-8 text-[14.5px]">
+        <span class="text-xs uppercase tracking-wider text-emeraldAccent font-semibold">3 việc chốt trước khi nghỉ:</span>
+        <span class="text-textMain"><strong class="mono-num text-emeraldAccent">1.</strong> Chốt danh sách Role chính thức của <span class="mono-num">5</span> thành viên.</span>
+        <span class="text-textMain"><strong class="mono-num text-emeraldAccent">2.</strong> Điền đủ thông tin trên để ngày mai nộp đơn đăng ký.</span>
+        <span class="text-textMain"><strong class="mono-num text-emeraldAccent">3.</strong> Tối mai bắt đầu check-in ngắn theo giờ đã chốt.</span>
+      </div>
+      <span id="copyFeedback" class="mono-num text-xs text-emeraldAccent opacity-0 transition-opacity">Đã copy vào Clipboard</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       BOTTOM NAVIGATION BAR (LOW OPACITY, SUBTLE)
+       ========================================== -->
+  <footer class="fixed bottom-0 left-0 w-full px-8 py-2.5 flex items-center justify-between text-xs text-textMuted opacity-60 hover:opacity-100 transition-opacity z-30 pointer-events-none">
+    <div class="flex items-center gap-4 pointer-events-auto">
+      <span id="slideIndicator" class="mono-num font-medium text-textMain">01 / 13</span>
+      <span class="text-borderInput">|</span>
+      <button id="openGridBtn" type="button" class="hover:text-textMain transition" title="Xem tổng quan 13 slide (Phím G)">
+        [G] Lưới <span class="mono-num">13</span> slides
+      </button>
+      <button id="fullscreenBtn" type="button" class="hover:text-textMain transition" title="Toàn màn hình (Phím F)">
+        [F] Toàn màn hình
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2 pointer-events-auto">
+      <button id="prevSlideBtn" type="button" class="px-2.5 py-1 border border-borderSubtle hover:border-borderInput text-textMain rounded transition mono-num">
+        ← Trước
+      </button>
+      <button id="nextSlideBtn" type="button" class="px-2.5 py-1 border border-borderSubtle hover:border-borderInput text-textMain rounded transition mono-num">
+        Tiếp →
+      </button>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       GRID OVERVIEW MODAL (13 SLIDES)
+       ========================================== -->
+  <div id="gridModal" class="fixed inset-0 bg-bgMain/95 z-50 hidden flex-col p-10">
+    <div class="flex items-center justify-between border-b border-borderSubtle pb-4 mb-6">
+      <div>
+        <span class="mono-num text-xs text-cyanAccent uppercase tracking-widest">OVERVIEW</span>
+        <h3 class="text-xl font-bold text-textMain">Tổng quan <span class="mono-num">13</span> Slides — Hack4Biz 2026</h3>
+      </div>
+      <button id="closeGridBtn" type="button" class="px-3 py-1 text-xs mono-num border border-borderInput text-textMuted hover:text-textMain rounded">
+        [ESC / G] Đóng
+      </button>
+    </div>
+    <div id="gridModalContent" class="grid grid-cols-4 gap-4 overflow-y-auto pr-2">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- ==========================================
+       VANILLA JAVASCRIPT: NAVIGATION + STATE SYNC
+       ========================================== -->
+  <script>
+    (function () {
+      const STORAGE_KEY = 'hack4biz_2026_meeting_18_11_v1';
+
+      const defaultState = {
+        checkinTime: '22:30',
+        members: [
+          {
+            id: 1,
+            group: 'BA (NEU)',
+            fixedBa: true,
+            name: '',
+            pref1: 'BA',
+            pref2: 'BA',
+            finalRole: 'BA',
+            dob: '',
+            schoolId: 'NEU / ',
+            phone: '',
+            email: ''
+          },
+          {
+            id: 2,
+            group: 'Developer 01',
+            fixedBa: false,
+            name: '',
+            pref1: '',
+            pref2: '',
+            finalRole: '',
+            dob: '',
+            schoolId: '',
+            phone: '',
+            email: ''
+          },
+          {
+            id: 3,
+            group: 'Developer 02',
+            fixedBa: false,
+            name: '',
+            pref1: '',
+            pref2: '',
+            finalRole: '',
+            dob: '',
+            schoolId: '',
+            phone: '',
+            email: ''
+          },
+          {
+            id: 4,
+            group: 'Developer 03',
+            fixedBa: false,
+            name: '',
+            pref1: '',
+            pref2: '',
+            finalRole: '',
+            dob: '',
+            schoolId: '',
+            phone: '',
+            email: ''
+          },
+          {
+            id: 5,
+            group: 'Developer 04',
+            fixedBa: false,
+            name: '',
+            pref1: '',
+            pref2: '',
+            finalRole: '',
+            dob: '',
+            schoolId: '',
+            phone: '',
+            email: ''
+          }
+        ]
+      };
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return JSON.parse(JSON.stringify(defaultState));
+          const parsed = JSON.parse(raw);
+          if (!parsed || !Array.isArray(parsed.members) || parsed.members.length !== 5) {
+            return JSON.parse(JSON.stringify(defaultState));
+          }
+          return parsed;
+        } catch (err) {
+          return JSON.parse(JSON.stringify(defaultState));
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        } catch (err) {
+          // ignore storage quota errors
+        }
+      }
+
+      let appState = loadState();
+
+      // Render Slide 09 Table
+      const roleTableBody = document.getElementById('roleTableBody');
+      const regTableBody = document.getElementById('regTableBody');
+      const checkinTimeInput = document.getElementById('checkinTimeInput');
+
+      const devRoleOptions = [
+        { value: '', label: '-- Chọn --' },
+        { value: 'PM', label: 'PM' },
+        { value: 'PO', label: 'PO' },
+        { value: 'DEV', label: 'DEV' },
+        { value: 'QA', label: 'QA' }
+      ];
+
+      function buildSelectOptions(selectedVal) {
+        return devRoleOptions
+          .map(opt => `<option value="${opt.value}" ${opt.value === selectedVal ? 'selected' : ''}>${opt.label}</option>`)
+          .join('');
+      }
+
+      function escapeHtml(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function renderSlide09() {
+        roleTableBody.innerHTML = appState.members
+          .map((m, idx) => {
+            if (m.fixedBa) {
+              return `
+                <tr>
+                  <td class="mono-num text-textMuted">0${idx + 1}</td>
+                  <td>
+                    <input type="text" data-idx="${idx}" data-field="name" value="${escapeHtml(m.name)}" placeholder="Nhập tên thành viên BA..." class="table-input" />
+                  </td>
+                  <td class="text-textMuted">${m.group}</td>
+                  <td><span class="mono-num text-xs px-2.5 py-1 bg-surface border border-borderSubtle text-textMuted rounded">BA (Cố định)</span></td>
+                  <td><span class="mono-num text-xs px-2.5 py-1 bg-surface border border-borderSubtle text-textMuted rounded">—</span></td>
+                  <td><span class="mono-num text-sm font-semibold text-emeraldAccent">BA</span></td>
+                </tr>
+              `;
+            }
+            return `
+              <tr>
+                <td class="mono-num text-textMuted">0${idx + 1}</td>
+                <td>
+                  <input type="text" data-idx="${idx}" data-field="name" value="${escapeHtml(m.name)}" placeholder="Nhập tên thành viên..." class="table-input" />
+                </td>
+                <td class="text-textMuted">${m.group}</td>
+                <td>
+                  <select data-idx="${idx}" data-field="pref1" class="table-select mono-num">
+                    ${buildSelectOptions(m.pref1)}
+                  </select>
+                </td>
+                <td>
+                  <select data-idx="${idx}" data-field="pref2" class="table-select mono-num">
+                    ${buildSelectOptions(m.pref2)}
+                  </select>
+                </td>
+                <td>
+                  <select data-idx="${idx}" data-field="finalRole" class="table-select mono-num font-semibold text-emeraldAccent">
+                    ${buildSelectOptions(m.finalRole)}
+                  </select>
+                </td>
+              </tr>
+            `;
+          })
+          .join('');
+      }
+
+      function renderSlide13() {
+        checkinTimeInput.value = appState.checkinTime || '22:30';
+        regTableBody.innerHTML = appState.members
+          .map((m, idx) => {
+            const roleBadge = m.finalRole || (m.fixedBa ? 'BA' : 'Chưa chốt');
+            const badgeColor = m.finalRole || m.fixedBa ? 'text-emeraldAccent' : 'text-textMuted';
+            return `
+              <tr>
+                <td>
+                  <span id="regRole_${idx}" class="mono-num text-sm font-semibold ${badgeColor}">${escapeHtml(roleBadge)}</span>
+                </td>
+                <td>
+                  <input type="text" data-idx="${idx}" data-field="name" value="${escapeHtml(m.name)}" placeholder="Họ và tên..." class="table-input" />
+                </td>
+                <td>
+                  <input type="text" data-idx="${idx}" data-field="dob" value="${escapeHtml(m.dob)}" placeholder="DD/MM/YYYY" class="table-input mono-num" />
+                </td>
+                <td>
+                  <input type="text" data-idx="${idx}" data-field="schoolId" value="${escapeHtml(m.schoolId)}" placeholder="Trường / MSSV" class="table-input" />
+                </td>
+                <td>
+                  <input type="text" data-idx="${idx}" data-field="phone" value="${escapeHtml(m.phone)}" placeholder="Số điện thoại" class="table-input mono-num" />
+                </td>
+                <td>
+                  <input type="text" data-idx="${idx}" data-field="email" value="${escapeHtml(m.email)}" placeholder="email@domain.com" class="table-input mono-num" />
+                </td>
+              </tr>
+            `;
+          })
+          .join('');
+      }
+
+      // Event Delegation for Slide 09
+      roleTableBody.addEventListener('input', function (e) {
+        const target = e.target;
+        const idx = Number(target.getAttribute('data-idx'));
+        const field = target.getAttribute('data-field');
+        if (isNaN(idx) || !field || !appState.members[idx]) return;
+
+        appState.members[idx][field] = target.value;
+        saveState();
+        // Sync with Slide 13 without losing focus on Slide 09
+        renderSlide13();
+      });
+
+      // Event Delegation for Slide 13
+      regTableBody.addEventListener('input', function (e) {
+        const target = e.target;
+        const idx = Number(target.getAttribute('data-idx'));
+        const field = target.getAttribute('data-field');
+        if (isNaN(idx) || !field || !appState.members[idx]) return;
+
+        appState.members[idx][field] = target.value;
+        saveState();
+        if (field === 'name') {
+          renderSlide09();
+        }
+      });
+
+      checkinTimeInput.addEventListener('input', function () {
+        appState.checkinTime = checkinTimeInput.value;
+        saveState();
+      });
+
+      // Reset Button on Slide 09
+      document.getElementById('resetRoleBtn').addEventListener('click', function () {
+        if (confirm('Xóa dữ liệu đã nhập trong bảng để nhập lại từ đầu?')) {
+          appState = JSON.parse(JSON.stringify(defaultState));
+          saveState();
+          renderSlide09();
+          renderSlide13();
+        }
+      });
+
+      // Copy Registration Info Button on Slide 13
+      document.getElementById('copyRegInfoBtn').addEventListener('click', function () {
+        const lines = [
+          'THÔNG TIN ĐĂNG KÝ ĐỘI THI HACK4BIZ 2026 (18/11/2026)',
+          `Khung giờ check-in tối: ${appState.checkinTime || '22:30'}`,
+          '------------------------------------------------------------'
+        ];
+        appState.members.forEach((m, i) => {
+          const r = m.finalRole || (m.fixedBa ? 'BA' : 'Chưa chốt');
+          lines.push(
+            `${i + 1}. [${r}] ${m.name || '(Chưa điền tên)'} | NS: ${m.dob || '-'} | Trường/MSSV: ${m.schoolId || '-'} | SĐT: ${m.phone || '-'} | Email: ${m.email || '-'}`
+          );
+        });
+        const textToCopy = lines.join('\n');
+        navigator.clipboard.writeText(textToCopy).then(function () {
+          const fb = document.getElementById('copyFeedback');
+          fb.classList.remove('opacity-0');
+          setTimeout(() => fb.classList.add('opacity-0'), 2200);
+        });
+      });
+
+      // Slide Navigation Logic
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const totalSlides = slides.length;
+      let currentSlide = 0;
+
+      const progressBar = document.getElementById('progressBar');
+      const slideIndicator = document.getElementById('slideIndicator');
+      const gridModal = document.getElementById('gridModal');
+      const gridModalContent = document.getElementById('gridModalContent');
+
+      function pad2(n) {
+        return n < 10 ? '0' + n : String(n);
+      }
+
+      function goToSlide(index) {
+        if (index < 0 || index >= totalSlides) return;
+        slides[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+
+        const pct = ((currentSlide + 1) / totalSlides) * 100;
+        progressBar.style.width = pct.toFixed(2) + '%';
+        slideIndicator.textContent = `${pad2(currentSlide + 1)} / ${pad2(totalSlides)}`;
+      }
+
+      function buildGridOverview() {
+        gridModalContent.innerHTML = slides
+          .map((s, idx) => {
+            const title = s.getAttribute('data-title') || `Slide ${idx + 1}`;
+            const isCurrent = idx === currentSlide;
+            const borderCls = isCurrent ? 'border-emeraldAccent' : 'border-borderSubtle hover:border-borderInput';
+            return `
+              <button type="button" data-slide="${idx}" class="text-left bg-surface border ${borderCls} p-4 rounded flex flex-col justify-between h-28 transition">
+                <div class="flex items-center justify-between w-full">
+                  <span class="mono-num text-xs ${isCurrent ? 'text-emeraldAccent font-semibold' : 'text-cyanAccent'}">SLIDE ${pad2(idx + 1)}</span>
+                  ${isCurrent ? '<span class="mono-num text-[10px] text-emeraldAccent uppercase">Đang mở</span>' : ''}
+                </div>
+                <div class="text-sm font-medium text-textMain line-clamp-2">${escapeHtml(title)}</div>
+              </button>
+            `;
+          })
+          .join('');
+      }
+
+      function toggleGridModal(forceClose) {
+        const isHidden = gridModal.classList.contains('hidden');
+        if (forceClose || !isHidden) {
+          gridModal.classList.add('hidden');
+          gridModal.classList.remove('flex');
+        } else {
+          buildGridOverview();
+          gridModal.classList.remove('hidden');
+          gridModal.classList.add('flex');
+        }
+      }
+
+      gridModalContent.addEventListener('click', function (e) {
+        const btn = e.target.closest('button[data-slide]');
+        if (!btn) return;
+        const targetIdx = Number(btn.getAttribute('data-slide'));
+        goToSlide(targetIdx);
+        toggleGridModal(true);
+      });
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+
+      document.getElementById('prevSlideBtn').addEventListener('click', () => goToSlide(currentSlide - 1));
+      document.getElementById('nextSlideBtn').addEventListener('click', () => goToSlide(currentSlide + 1));
+      document.getElementById('openGridBtn').addEventListener('click', () => toggleGridModal(false));
+      document.getElementById('closeGridBtn').addEventListener('click', () => toggleGridModal(true));
+      document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+
+      // Keyboard navigation (disabled when typing inside inputs/selects)
+      window.addEventListener('keydown', function (e) {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+        const isEditing = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || e.target.isContentEditable;
+
+        if (e.key === 'Escape') {
+          if (!gridModal.classList.contains('hidden')) {
+            toggleGridModal(true);
+            return;
+          }
+          if (isEditing) {
+            e.target.blur();
+            return;
+          }
+        }
+
+        if (isEditing) return;
+
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+          e.preventDefault();
+          goToSlide(currentSlide + 1);
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          goToSlide(currentSlide - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'g' || e.key === 'G') {
+          e.preventDefault();
+          toggleGridModal(false);
+        }
+      });
+
+      // Initialize tables and first slide
+      renderSlide09();
+      renderSlide13();
+      goToSlide(0);
+    })();
+  </script>
+</body>
+</html>

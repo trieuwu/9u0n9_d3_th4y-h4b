@@ -195,6 +195,50 @@
       outline-offset: 2px;
     }
 
+    /* Intro Splash & Member Card Effects */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes cardStaggerIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .intro-backdrop {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(16, 185, 129, 0.14), transparent 40%),
+        radial-gradient(circle at 82% 22%, rgba(6, 182, 212, 0.14), transparent 42%),
+        radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.08), transparent 48%),
+        var(--bg-main);
+    }
+    .member-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-input);
+      opacity: 0;
+      animation: cardStaggerIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease, box-shadow 0.24s ease;
+    }
+    .member-card:hover {
+      transform: translateY(-5px);
+      border-color: #10B981;
+      box-shadow: 0 12px 26px -8px rgba(16, 185, 129, 0.25);
+    }
+    .float-badge {
+      animation: floatSlow 3.6s ease-in-out infinite;
+    }
+    .intro-exit {
+      opacity: 0;
+      transform: scale(1.02);
+      pointer-events: none;
+      transition: opacity 0.32s ease, transform 0.32s ease;
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
@@ -216,6 +260,140 @@
 
   <!-- Confetti Canvas Overlay -->
   <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Opening Welcome & Team Credits Overlay -->
+  <div id="intro-overlay" class="fixed inset-0 z-50 intro-backdrop flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="max-w-4xl w-full surface-card rounded-3xl p-6 sm:p-10 shadow-2xl space-y-7 my-auto anim-up relative overflow-hidden">
+      <!-- Top Decorative Accent Line -->
+      <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emeraldAccent via-cyanAccent to-emeraldAccent"></div>
+
+      <!-- Hero Badge & Title -->
+      <div class="text-center space-y-3 pt-1">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30 float-badge">
+          <span class="w-2 h-2 rounded-full bg-emeraldAccent animate-ping"></span>
+          <span>HACK4BIZ COMPETITION 2026 • OFFICIAL PRACTICE PORTAL</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-bold tracking-tight leading-tight">
+          Hệ Thống Ôn Luyện Trắc Nghiệm <span class="text-transparent bg-clip-text bg-gradient-to-r from-emeraldAccent to-cyanAccent">30 Câu Hỏi Chính Thức</span>
+        </h1>
+
+        <p class="text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed" style="color: var(--text-muted);">
+          Bộ đề luyện tập tương tác phục vụ Vòng 1 (Online Assessment) bao gồm <strong class="text-emeraldAccent">Agile &amp; Scrum</strong> cùng 5 nhóm chuyên môn <strong class="text-cyanAccent">PM • PO • BA • DEV • QA</strong>. Không giới hạn thời gian, có giải thích chi tiết từng câu.
+        </p>
+      </div>
+
+      <!-- Quick Highlights Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center">
+        <div class="p-3 rounded-xl elevated-box">
+          <div class="text-base sm:text-lg font-bold mono-num text-emeraldAccent">30 Câu</div>
+          <div class="text-[11px]" style="color: var(--text-muted);">Đề chính thức &amp; Key chuẩn</div>
+        </div>
+        <div class="p-3 rounded-xl elevated-box">
+          <div class="text-base sm:text-lg font-bold mono-num text-cyanAccent">6 Chuyên đề</div>
+          <div class="text-[11px]" style="color: var(--text-muted);">Scrum • PM • PO • BA • DEV • QA</div>
+        </div>
+        <div class="p-3 rounded-xl elevated-box">
+          <div class="text-base sm:text-lg font-bold mono-num text-amberAccent">∞ Thời gian</div>
+          <div class="text-[11px]" style="color: var(--text-muted);">Thoải mái đọc &amp; phân tích</div>
+        </div>
+        <div class="p-3 rounded-xl elevated-box">
+          <div class="text-base sm:text-lg font-bold mono-num text-purple-400">2 Chế độ</div>
+          <div class="text-[11px]" style="color: var(--text-muted);">Chấm tức thì &amp; Thi thử</div>
+        </div>
+      </div>
+
+      <!-- 5 Team Members Showcase (Credits) -->
+      <div class="space-y-3.5">
+        <div class="flex items-center justify-center gap-3">
+          <div class="h-px flex-1" style="background-color: var(--border-subtle);"></div>
+          <span class="text-xs font-bold uppercase tracking-widest px-2" style="color: var(--text-muted);">
+            ★ Đội Ngũ Thực Hiện &amp; Chia Sẻ (Team Credits) ★
+          </span>
+          <div class="h-px flex-1" style="background-color: var(--border-subtle);"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3">
+          <!-- Member 1: Phùng Hải Đăng -->
+          <div class="member-card rounded-2xl p-4 flex sm:flex-col items-center sm:text-center gap-3" style="animation-delay: 0.06s;">
+            <div class="w-11 h-11 rounded-xl bg-emeraldAccent/15 border border-emeraldAccent/40 text-emeraldAccent font-bold mono-num text-sm flex items-center justify-center shrink-0 shadow-sm">
+              HĐ
+            </div>
+            <div class="min-w-0">
+              <div class="font-bold text-sm truncate">Phùng Hải Đăng</div>
+              <div class="text-[11px] mono-num text-emeraldAccent mt-0.5">Hack4Biz Team</div>
+            </div>
+          </div>
+
+          <!-- Member 2: Nguyễn Tú Anh -->
+          <div class="member-card rounded-2xl p-4 flex sm:flex-col items-center sm:text-center gap-3" style="animation-delay: 0.12s;">
+            <div class="w-11 h-11 rounded-xl bg-cyanAccent/15 border border-cyanAccent/40 text-cyanAccent font-bold mono-num text-sm flex items-center justify-center shrink-0 shadow-sm">
+              TA
+            </div>
+            <div class="min-w-0">
+              <div class="font-bold text-sm truncate">Nguyễn Tú Anh</div>
+              <div class="text-[11px] mono-num text-cyanAccent mt-0.5">Hack4Biz Team</div>
+            </div>
+          </div>
+
+          <!-- Member 3: Đàm Thuận Khải -->
+          <div class="member-card rounded-2xl p-4 flex sm:flex-col items-center sm:text-center gap-3" style="animation-delay: 0.18s;">
+            <div class="w-11 h-11 rounded-xl bg-amberAccent/15 border border-amberAccent/40 text-amberAccent font-bold mono-num text-sm flex items-center justify-center shrink-0 shadow-sm">
+              TK
+            </div>
+            <div class="min-w-0">
+              <div class="font-bold text-sm truncate">Đàm Thuận Khải</div>
+              <div class="text-[11px] mono-num text-amberAccent mt-0.5">Hack4Biz Team</div>
+            </div>
+          </div>
+
+          <!-- Member 4: Đặng Việt Anh -->
+          <div class="member-card rounded-2xl p-4 flex sm:flex-col items-center sm:text-center gap-3" style="animation-delay: 0.24s;">
+            <div class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-500/40 text-purple-400 font-bold mono-num text-sm flex items-center justify-center shrink-0 shadow-sm">
+              VA
+            </div>
+            <div class="min-w-0">
+              <div class="font-bold text-sm truncate">Đặng Việt Anh</div>
+              <div class="text-[11px] mono-num text-purple-400 mt-0.5">Hack4Biz Team</div>
+            </div>
+          </div>
+
+          <!-- Member 5: Hà Tiến Triệu -->
+          <div class="member-card rounded-2xl p-4 flex sm:flex-col items-center sm:text-center gap-3" style="animation-delay: 0.30s;">
+            <div class="w-11 h-11 rounded-xl bg-blue-500/15 border border-blue-500/40 text-blue-400 font-bold mono-num text-sm flex items-center justify-center shrink-0 shadow-sm">
+              TT
+            </div>
+            <div class="min-w-0">
+              <div class="font-bold text-sm truncate">Hà Tiến Triệu</div>
+              <div class="text-[11px] mono-num text-blue-400 mt-0.5">Hack4Biz Team</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call-To-Action Start Buttons -->
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <button
+          onclick="startQuizFromIntro('instant')"
+          class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm bg-emeraldAccent hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emeraldAccent/20 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2"
+        >
+          <span>Bắt Đầu Luyện Tập Ngay (Chấm Tức Thì)</span>
+          <span>→</span>
+        </button>
+
+        <button
+          onclick="startQuizFromIntro('exam')"
+          class="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-sm elevated-box hover:border-cyanAccent text-cyanAccent transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2"
+        >
+          <span>Vào Chế Độ Thi Thử (Nộp Cuối)</span>
+        </button>
+      </div>
+
+      <p class="text-center text-[11px]" style="color: var(--text-muted);">
+        Mẹo: Nhấn phím <kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">Enter</kbd> để vào thẳng bài làm • Tiến độ làm bài được tự động lưu trên trình duyệt của bạn.
+      </p>
+    </div>
+  </div>
 
   <!-- Top Progress Bar -->
   <div class="sticky top-0 z-40 w-full backdrop-blur-md bg-opacity-90" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-subtle);">
@@ -261,6 +439,11 @@
             Danh sách
           </button>
         </div>
+
+        <!-- Team Credits Button -->
+        <button onclick="openIntroOverlay()" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold elevated-box hover:border-emeraldAccent text-emeraldAccent transition-colors flex items-center gap-1.5" title="Xem giới thiệu đội ngũ thực hiện">
+          <span>★ Team Credits</span>
+        </button>
 
         <!-- Theme Toggle -->
         <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 rounded-lg elevated-box hover:border-cyanAccent transition-colors" title="Đổi giao diện Sáng / Tối">
@@ -433,6 +616,28 @@
 
     </aside>
   </main>
+
+  <!-- Persistent Footer Credits -->
+  <footer class="w-full border-t py-4 mt-8" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs" style="color: var(--text-muted);">
+      <div class="flex items-center gap-2">
+        <span class="px-2 py-0.5 rounded font-bold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30">HACK4BIZ 2026</span>
+        <span>Bộ đề ôn luyện 30 câu hỏi trắc nghiệm chính thức</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+        <span class="font-semibold" style="color: var(--text-main);">Credits:</span>
+        <span>Phùng Hải Đăng</span>
+        <span>•</span>
+        <span>Nguyễn Tú Anh</span>
+        <span>•</span>
+        <span>Đàm Thuận Khải</span>
+        <span>•</span>
+        <span>Đặng Việt Anh</span>
+        <span>•</span>
+        <span>Hà Tiến Triệu</span>
+      </div>
+    </div>
+  </footer>
 
   <!-- Summary & Analytics Modal -->
   <div id="summary-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
@@ -1752,8 +1957,34 @@
     }
 
     // =========================================================================
-    // 7. THEME & KEYBOARD SHORTCUTS
+    // 7. INTRO SPLASH SCREEN, THEME & KEYBOARD SHORTCUTS
     // =========================================================================
+    let isIntroOpen = true;
+
+    function startQuizFromIntro(selectedMode) {
+      if (selectedMode) {
+        state.mode = selectedMode;
+        if (selectedMode === "instant") state.examSubmitted = false;
+        renderAll();
+      }
+      const overlay = document.getElementById("intro-overlay");
+      if (!overlay) return;
+      overlay.classList.add("intro-exit");
+      isIntroOpen = false;
+      setTimeout(() => {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex", "intro-exit");
+      }, 310);
+    }
+
+    function openIntroOverlay() {
+      const overlay = document.getElementById("intro-overlay");
+      if (!overlay) return;
+      overlay.classList.remove("hidden", "intro-exit");
+      overlay.classList.add("flex");
+      isIntroOpen = true;
+    }
+
     function toggleTheme() {
       const html = document.documentElement;
       const isDark = html.classList.toggle("dark");
@@ -1773,6 +2004,13 @@
     }
 
     document.addEventListener("keydown", (e) => {
+      if (isIntroOpen) {
+        if (e.key === "Enter" || e.key === "Escape") {
+          e.preventDefault();
+          startQuizFromIntro();
+        }
+        return;
+      }
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       if (state.view !== "single") return;
 

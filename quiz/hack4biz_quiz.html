@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hack4Biz 2026 — Hệ Thống Luyện Tập Trắc Nghiệm (30 Câu Chính Thức)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bgMain: '#090D16',
+            surface: '#111827',
+            surfaceElevated: '#1E293B',
+            borderSubtle: '#1F2937',
+            borderInput: '#334155',
+            textMain: '#F8FAFC',
+            textMuted: '#94A3B8',
+            emeraldAccent: '#10B981',
+            cyanAccent: '#06B6D4',
+            amberAccent: '#F59E0B',
+            roseAccent: '#EF4444',
+          },
+          fontFamily: {
+            sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg-main: #090D16;
+      --bg-surface: #111827;
+      --bg-elevated: #1E293B;
+      --border-subtle: #1F2937;
+      --border-input: #334155;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+    }
+    html:not(.dark) {
+      --bg-main: #F8FAFC;
+      --bg-surface: #FFFFFF;
+      --bg-elevated: #F1F5F9;
+      --border-subtle: #E2E8F0;
+      --border-input: #CBD5E1;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+    .mono-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .surface-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.25s ease;
+    }
+    .elevated-box {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border-input);
+    }
+
+    /* Animated entrance & transitions */
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.992);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    @keyframes slideRightFade {
+      from {
+        opacity: 0;
+        transform: translateX(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes slideLeftFade {
+      from {
+        opacity: 0;
+        transform: translateX(-18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes pulseEmerald {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.45); }
+      70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    @keyframes expandExplanation {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anim-up {
+      animation: slideUpFade 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .anim-next {
+      animation: slideRightFade 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .anim-prev {
+      animation: slideLeftFade 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .anim-explanation {
+      animation: expandExplanation 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Option Card Interactive Effects */
+    .option-btn {
+      position: relative;
+      overflow: hidden;
+      background-color: var(--bg-surface);
+      border: 1.5px solid var(--border-input);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .option-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      border-color: #06B6D4;
+      box-shadow: 0 8px 20px -6px rgba(6, 182, 212, 0.18);
+    }
+    .option-btn:active:not(:disabled) {
+      transform: translateY(0) scale(0.995);
+    }
+    .option-btn.selected-exam {
+      border-color: #06B6D4;
+      background-color: rgba(6, 182, 212, 0.1);
+      box-shadow: 0 0 0 1px rgba(6, 182, 212, 0.3);
+    }
+    .option-btn.correct-choice {
+      border-color: #10B981 !important;
+      background-color: rgba(16, 185, 129, 0.12) !important;
+      animation: pulseEmerald 0.65s ease-out;
+    }
+    .option-btn.wrong-choice {
+      border-color: #EF4444 !important;
+      background-color: rgba(239, 68, 68, 0.11) !important;
+      animation: shakeError 0.42s ease-in-out;
+    }
+    .option-btn.missed-correct {
+      border-color: #10B981 !important;
+      border-style: dashed !important;
+      background-color: rgba(16, 185, 129, 0.07) !important;
+    }
+
+    /* Navigator Grid Buttons */
+    .nav-cell {
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-cell:hover {
+      transform: translateY(-2px);
+    }
+    .nav-cell.active-current {
+      outline: 2px solid #06B6D4;
+      outline-offset: 2px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-main);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-input);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748B;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-emeraldAccent/20 selection:text-emeraldAccent">
+
+  <!-- Confetti Canvas Overlay -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- Top Progress Bar -->
+  <div class="sticky top-0 z-40 w-full backdrop-blur-md bg-opacity-90" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-subtle);">
+    <div class="w-full h-1 bg-slate-800/50 overflow-hidden">
+      <div id="top-progress-bar" class="h-full bg-gradient-to-r from-cyanAccent to-emeraldAccent transition-all duration-500 ease-out" style="width: 0%;"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-emeraldAccent/15 border border-emeraldAccent/40 flex items-center justify-center text-emeraldAccent font-bold mono-num text-sm shadow-sm">
+          H4B
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-base sm:text-lg tracking-tight">Hack4Biz 2026 Practice Quiz</h1>
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded text-xs font-medium mono-num bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">
+              30 Questions • Không giới hạn thời gian
+            </span>
+          </div>
+          <p class="text-xs" style="color: var(--text-muted);">Bộ đề luyện tập chính thức Vòng 1 (Agile Scrum • PM • PO • BA • DEV • QA)</p>
+        </div>
+      </div>
+
+      <!-- Mode Controls & Stats -->
+      <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+        <!-- Practice Mode Toggle -->
+        <div class="inline-flex rounded-lg p-0.5 elevated-box text-xs font-medium">
+          <button id="mode-instant-btn" onclick="setQuizMode('instant')" class="px-2.5 py-1.5 rounded-md transition-all bg-emeraldAccent text-slate-950 font-semibold">
+            Luyện tập (Chấm ngay)
+          </button>
+          <button id="mode-exam-btn" onclick="setQuizMode('exam')" class="px-2.5 py-1.5 rounded-md transition-all hover:opacity-90" style="color: var(--text-muted);">
+            Thi thử (Nộp cuối)
+          </button>
+        </div>
+
+        <!-- View Toggle (Single vs List) -->
+        <div class="inline-flex rounded-lg p-0.5 elevated-box text-xs font-medium">
+          <button id="view-single-btn" onclick="setViewMode('single')" class="px-2.5 py-1.5 rounded-md transition-all bg-cyanAccent text-slate-950 font-semibold" title="Hiển thị từng câu hỏi">
+            Từng câu
+          </button>
+          <button id="view-list-btn" onclick="setViewMode('list')" class="px-2.5 py-1.5 rounded-md transition-all hover:opacity-90" style="color: var(--text-muted);" title="Hiển thị toàn bộ danh sách">
+            Danh sách
+          </button>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 rounded-lg elevated-box hover:border-cyanAccent transition-colors" title="Đổi giao diện Sáng / Tối">
+          <svg id="icon-sun" class="w-4 h-4 hidden text-amberAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+          <svg id="icon-moon" class="w-4 h-4 text-cyanAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Workspace Container -->
+  <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+    <!-- Left / Main Column: Filters + Active Question(s) -->
+    <div class="lg:col-span-8 space-y-5">
+
+      <!-- Toolbar: Role Filter Pills & Search/Shuffle -->
+      <section class="surface-card rounded-xl p-4 space-y-3.5 shadow-sm">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-muted);">Lọc theo Chủ đề / Role</span>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleShuffleQuestions()" id="btn-shuffle-q" class="px-2.5 py-1 rounded-md text-xs font-medium elevated-box hover:border-cyanAccent transition-all flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-cyanAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span>Trộn câu hỏi</span>
+            </button>
+            <button onclick="toggleShuffleOptions()" id="btn-shuffle-opt" class="px-2.5 py-1 rounded-md text-xs font-medium elevated-box hover:border-cyanAccent transition-all flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-emeraldAccent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+              <span>Trộn đáp án A-D</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Pills -->
+        <div id="category-pills" class="flex flex-wrap gap-1.5"></div>
+
+        <!-- Status Filter & Search Input -->
+        <div class="pt-2 border-t flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5" style="border-color: var(--border-subtle);">
+          <div class="flex flex-wrap items-center gap-1.5" id="status-pills">
+            <button onclick="setStatusFilter('all')" data-status="all" class="status-pill px-2.5 py-1 rounded-md text-xs font-medium bg-cyanAccent/20 text-cyanAccent border border-cyanAccent/40">
+              Tất cả
+            </button>
+            <button onclick="setStatusFilter('unanswered')" data-status="unanswered" class="status-pill px-2.5 py-1 rounded-md text-xs font-medium elevated-box hover:border-cyanAccent">
+              Chưa làm
+            </button>
+            <button onclick="setStatusFilter('flagged')" data-status="flagged" class="status-pill px-2.5 py-1 rounded-md text-xs font-medium elevated-box hover:border-amberAccent">
+              ★ Đánh dấu (<span id="count-flagged" class="mono-num">0</span>)
+            </button>
+            <button onclick="setStatusFilter('wrong')" data-status="wrong" class="status-pill px-2.5 py-1 rounded-md text-xs font-medium elevated-box hover:border-roseAccent">
+              Làm sai (<span id="count-wrong" class="mono-num">0</span>)
+            </button>
+          </div>
+
+          <div class="relative flex-1 sm:max-w-xs">
+            <input
+              id="search-input"
+              type="text"
+              oninput="handleSearch(this.value)"
+              placeholder="Tìm từ khóa (VD: Backlog, RAG, MoSCoW...)"
+              class="w-full pl-8 pr-7 py-1.5 rounded-lg text-xs elevated-box focus:outline-none focus:border-cyanAccent transition-colors"
+            />
+            <svg class="w-3.5 h-3.5 absolute left-2.5 top-2.5" style="color: var(--text-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-2 top-2 text-xs hover:text-roseAccent" style="color: var(--text-muted);">✕</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Question Render Area -->
+      <div id="question-viewport" class="space-y-5"></div>
+
+    </div>
+
+    <!-- Right Column: Sticky Dashboard & Question Navigator -->
+    <aside class="lg:col-span-4 lg:sticky lg:top-20 space-y-5">
+
+      <!-- Live Score & Progress Card -->
+      <div class="surface-card rounded-xl p-5 space-y-4 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-sm font-bold tracking-tight">Tiến độ & Kết quả</h2>
+            <p id="mode-status-label" class="text-xs" style="color: var(--text-muted);">Chế độ: Chấm điểm tức thì</p>
+          </div>
+          <span id="accuracy-badge" class="px-2.5 py-1 rounded-full text-xs font-bold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30">
+            0% Chính xác
+          </span>
+        </div>
+
+        <!-- 3 Metric Boxes -->
+        <div class="grid grid-cols-3 gap-2.5 text-center">
+          <div class="p-3 rounded-lg elevated-box">
+            <div class="text-xs" style="color: var(--text-muted);">Đã làm</div>
+            <div class="text-lg font-bold mono-num mt-0.5">
+              <span id="stat-answered">0</span><span class="text-xs font-normal" style="color: var(--text-muted);">/30</span>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-emeraldAccent/10 border border-emeraldAccent/30">
+            <div class="text-xs text-emeraldAccent font-medium">Trả lời đúng</div>
+            <div id="stat-correct" class="text-lg font-bold mono-num text-emeraldAccent mt-0.5">0</div>
+          </div>
+          <div class="p-3 rounded-lg bg-roseAccent/10 border border-roseAccent/30">
+            <div class="text-xs text-roseAccent font-medium">Trả lời sai</div>
+            <div id="stat-wrong" class="text-lg font-bold mono-num text-roseAccent mt-0.5">0</div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col gap-2 pt-1">
+          <button
+            id="submit-exam-btn"
+            onclick="submitExamOrShowSummary()"
+            class="w-full py-2.5 px-4 rounded-lg font-semibold text-xs sm:text-sm bg-emeraldAccent hover:bg-emerald-400 text-slate-950 shadow-sm transition-all flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span id="submit-btn-text">Xem Tổng Kết & Phân Tích Điểm</span>
+          </button>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button
+              onclick="retryWrongQuestions()"
+              id="btn-retry-wrong"
+              class="py-2 px-3 rounded-lg font-medium text-xs elevated-box hover:border-amberAccent text-amberAccent transition-all flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none"
+            >
+              <span>Làm lại câu sai</span>
+            </button>
+            <button
+              onclick="resetAllProgress()"
+              class="py-2 px-3 rounded-lg font-medium text-xs elevated-box hover:border-roseAccent hover:text-roseAccent transition-all flex items-center justify-center gap-1.5"
+            >
+              <span>Làm mới (Reset)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 30-Question Grid Navigator -->
+      <div class="surface-card rounded-xl p-5 space-y-3.5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-muted);">Bảng điều hướng 30 câu</h3>
+          <div class="flex items-center gap-2 text-[11px]" style="color: var(--text-muted);">
+            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emeraldAccent"></span>Đúng</span>
+            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-roseAccent"></span>Sai</span>
+            <span class="inline-flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amberAccent"></span>★</span>
+          </div>
+        </div>
+
+        <div id="navigator-grid" class="grid grid-cols-6 gap-2"></div>
+
+        <!-- Keyboard Shortcuts Legend -->
+        <div class="pt-3 border-t text-[11px] space-y-1" style="border-color: var(--border-subtle); color: var(--text-muted);">
+          <div class="font-semibold text-xs mb-1" style="color: var(--text-main);">Phím tắt bàn phím (Chế độ Từng câu):</div>
+          <div class="grid grid-cols-2 gap-1">
+            <div><kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">A-D</kbd> / <kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">1-4</kbd> Chọn đáp án</div>
+            <div><kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">←</kbd> <kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">→</kbd> Chuyển câu</div>
+            <div><kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">F</kbd> Đánh dấu sao ★</div>
+            <div><kbd class="px-1.5 py-0.5 rounded elevated-box mono-num text-[10px]">E</kbd> Ẩn/Hiện giải thích</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- Summary & Analytics Modal -->
+  <div id="summary-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="surface-card rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl anim-up max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span class="px-2.5 py-1 rounded-md text-xs font-semibold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30">
+            BÁO CÁO KẾT QUẢ LUYỆN TẬP
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold mt-2">Tổng Kết Bài Trắc Nghiệm Hack4Biz</h2>
+          <p class="text-xs sm:text-sm mt-0.5" style="color: var(--text-muted);">Đánh giá mức độ nắm vững kiến thức theo 6 nhóm chuyên môn Vòng 1</p>
+        </div>
+        <button onclick="closeSummaryModal()" class="p-2 rounded-lg elevated-box hover:border-roseAccent hover:text-roseAccent">
+          ✕
+        </button>
+      </div>
+
+      <!-- Score Gauge + Overview -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center p-4 rounded-xl elevated-box">
+        <div class="flex flex-col items-center justify-center">
+          <div class="relative w-28 h-28 flex items-center justify-center">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="8" fill="transparent" class="text-slate-700/40" />
+              <circle id="modal-score-ring" cx="50" cy="50" r="42" stroke="#10B981" stroke-width="8" stroke-linecap="round" fill="transparent" stroke-dasharray="263.89" stroke-dashoffset="263.89" class="transition-all duration-1000 ease-out" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="modal-score-pct" class="text-2xl font-bold mono-num">0%</span>
+              <span id="modal-score-fraction" class="text-xs mono-num" style="color: var(--text-muted);">0/30</span>
+            </div>
+          </div>
+        </div>
+        <div class="sm:col-span-2 space-y-2.5">
+          <div id="modal-verdict-title" class="text-base font-bold text-emeraldAccent">Chưa hoàn thành toàn bộ câu hỏi</div>
+          <p id="modal-verdict-desc" class="text-xs leading-relaxed" style="color: var(--text-muted);"></p>
+          <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+            <div class="p-2 rounded-lg surface-card">
+              <div class="text-[11px]" style="color: var(--text-muted);">Đúng</div>
+              <div id="modal-correct" class="text-base font-bold mono-num text-emeraldAccent">0</div>
+            </div>
+            <div class="p-2 rounded-lg surface-card">
+              <div class="text-[11px]" style="color: var(--text-muted);">Sai</div>
+              <div id="modal-wrong" class="text-base font-bold mono-num text-roseAccent">0</div>
+            </div>
+            <div class="p-2 rounded-lg surface-card">
+              <div class="text-[11px]" style="color: var(--text-muted);">Chưa làm</div>
+              <div id="modal-unanswered" class="text-base font-bold mono-num text-amberAccent">30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breakdown by Role/Domain -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider" style="color: var(--text-muted);">Phân tích theo Nhóm Chuyên môn (Role Breakdown)</h3>
+        <div id="modal-domain-bars" class="space-y-2.5"></div>
+      </div>
+
+      <!-- Modal Footer Actions -->
+      <div class="flex flex-wrap items-center justify-end gap-2.5 pt-3 border-t" style="border-color: var(--border-subtle);">
+        <button onclick="closeSummaryModal(); setStatusFilter('wrong');" class="px-4 py-2 rounded-lg text-xs font-semibold elevated-box hover:border-roseAccent text-roseAccent">
+          Xem lại các câu sai
+        </button>
+        <button onclick="closeSummaryModal(); resetAllProgress();" class="px-4 py-2 rounded-lg text-xs font-semibold elevated-box hover:border-cyanAccent">
+          Làm lại toàn bộ
+        </button>
+        <button onclick="closeSummaryModal()" class="px-5 py-2 rounded-lg text-xs font-semibold bg-emeraldAccent text-slate-950 hover:bg-emerald-400">
+          Tiếp tục ôn luyện
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. OFFICIAL 30 QUESTIONS DATA (FROM hack4biz_full_30.md)
+    // =========================================================================
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        domain: "Agile & Scrum",
+        topic: "Scrum Definition",
+        question: "What is Scrum best described as?",
+        options: [
+          { key: "A", text: "A flexible framework for developing, delivering, and sustaining complex products through iterative and incremental work" },
+          { key: "B", text: "A strict sequential methodology requiring complete execution of linear phases from initial design to final deployment" },
+          { key: "C", text: "A detailed methodology that specifies exact practices and tools to use" },
+          { key: "D", text: "A structured project management method focused strictly on business justification and explicitly defined team roles" }
+        ],
+        answer: "A",
+        explanation: "Theo Scrum Guide, Scrum không phải là một phương pháp luận cứng nhắc (methodology) hay quy trình tuần tự (Waterfall - B), mà là một khung làm việc linh hoạt (lightweight/flexible framework) để phát triển, bàn giao và duy trì các sản phẩm phức tạp thông qua cách tiếp cận lặp (iterative) và tăng trưởng (incremental)."
+      },
+      {
+        id: 2,
+        domain: "Agile & Scrum",
+        topic: "Scrum Accountabilities",
+        question: "On a banking app team, a stakeholder asks who decides the order in which items appear in the Product Backlog. Who should answer this?",
+        options: [
+          { key: "A", text: "Scrum Master" },
+          { key: "B", text: "Product Owner" },
+          { key: "C", text: "Developers" },
+          { key: "D", text: "The stakeholder making the request" }
+        ],
+        answer: "B",
+        explanation: "Product Owner (PO) là người duy nhất chịu trách nhiệm giải trình (solely accountable) cho việc quản lý và sắp xếp thứ tự ưu tiên (ordering) các hạng mục trong Product Backlog nhằm tối đa hóa giá trị sản phẩm."
+      },
+      {
+        id: 3,
+        domain: "Agile & Scrum",
+        topic: "Impediment Removal",
+        question: "During Sprint execution on an e-commerce checkout feature, a Developer hits a technical impediment that is slowing progress. Who is primarily responsible for helping resolve this?",
+        options: [
+          { key: "A", text: "Product Owner" },
+          { key: "B", text: "Scrum Master" },
+          { key: "C", text: "An external stakeholder" },
+          { key: "D", text: "CEO" }
+        ],
+        answer: "B",
+        explanation: "Theo Scrum Guide, một trong những trách nhiệm cốt lõi của Scrum Master khi phục vụ Scrum Team là hỗ trợ tháo gỡ các trở ngại (causing the removal of impediments to the Scrum Team's progress)."
+      },
+      {
+        id: 4,
+        domain: "Agile & Scrum",
+        topic: "Usable Increment Accountability",
+        question: "On a banking application team, who is accountable for creating a valuable and usable Increment each Sprint?",
+        options: [
+          { key: "A", text: "Scrum Master alone" },
+          { key: "B", text: "Product Owner alone" },
+          { key: "C", text: "Developers" },
+          { key: "D", text: "Other stakeholders" }
+        ],
+        answer: "C",
+        explanation: "Theo Scrum Guide 2020: 'Developers are the people in the Scrum Team that are committed to creating any aspect of a usable Increment each Sprint.' Trong các phương án đơn lẻ, Developers là vai trò trực tiếp chịu trách nhiệm tạo ra Usable Increment mỗi Sprint."
+      },
+      {
+        id: 5,
+        domain: "Agile & Scrum",
+        topic: "Product Backlog Ownership",
+        question: "An e-commerce team's Product Owner goes on leave, and someone suggests the Scrum Master permanently take over ordering the Product Backlog. Is this appropriate according to Scrum?",
+        options: [
+          { key: "A", text: "Yes, Scrum Master can permanently take over this accountability" },
+          { key: "B", text: "No, only Developers can take over Product Backlog ordering" },
+          { key: "C", text: "No, ordering the Product Backlog remains Product Owner's accountability" },
+          { key: "D", text: "Yes, because Scrum Master and Product Owner are interchangeable roles" }
+        ],
+        answer: "C",
+        explanation: "Việc sắp xếp thứ tự Product Backlog (Ordering Product Backlog items) thuộc trách nhiệm giải trình cốt lõi của Product Owner. Scrum Master và Product Owner là hai vai trò có mục tiêu đối trọng nhau (tối đa hóa giá trị vs. đảm bảo quy trình/chất lượng), không phải hai vai trò có thể hoán đổi tùy tiện."
+      },
+      {
+        id: 6,
+        domain: "Agile & Scrum",
+        topic: "Scrum Events & Inspection",
+        question: "The e-commerce team has just finished building a working version of a new \"recommended products\" feature. They invite people from Marketing and Sales to test it out together. During the demo, a Sales Director notices the feature isn't showing their most profitable items. The team and the sales group talk it over and agree that fixing this should be a top priority moving forward so the company can make more money. During which Scrum event does the team look at the working product with stakeholders, and what happens to their feedback?",
+        note: "Keyed as D on the official quiz results page because Sprint Review was omitted from the 4 choices.",
+        options: [
+          { key: "A", text: "A special \"Emergency\" meeting set up by Scrum Master to fix the broken tool." },
+          { key: "B", text: "Sprint Retrospective, because relying on a broken tool is a mistake they need to learn from." },
+          { key: "C", text: "Product Backlog Refinement, so they can immediately rewrite all their tasks and show them to Product Owner." },
+          { key: "D", text: "Daily Scrum; where Developers check their progress toward the Sprint Goal and change their plan to handle new problems." }
+        ],
+        answer: "D",
+        explanation: "Lưu ý đặc biệt từ đáp án chấm điểm chính thức của hệ thống thi (Official Results Key): Về lý thuyết chuẩn Scrum Guide, sự kiện xem sản phẩm cùng Stakeholders là Sprint Review. Tuy nhiên, trong 4 lựa chọn A, B, C, D của đề không có Sprint Review (và A, B, C đều mô tả sai bản chất Scrum), nên đáp án được hệ thống chấm đúng (1/1) là D."
+      },
+      {
+        id: 7,
+        domain: "Agile & Scrum",
+        topic: "Product Goal Alignment",
+        question: "A team is mapping out their roadmap for a new business analytics platform.\n\nAnalyzing the relationship between the goals in this artifact, where is the primary inconsistency?",
+        note: "The roadmap image/artifact was not rendered in the original page text, but option B directly identifies the Sprint Goal vs. Product Goal mismatch.",
+        options: [
+          { key: "A", text: "Sprint 1's Goal is too small and technical to be a valid step toward the Product Goal." },
+          { key: "B", text: "Sprint 3's Goal introduces a gap because automated marketing emails do not advance the AI-driven analytics dashboard Product Goal." },
+          { key: "C", text: "Sprint 2's Goal is invalid because it relies on Sprint 1, but the artifact lacks a dependency arrow." },
+          { key: "D", text: "The Product Goal is invalid because it includes a Q4 time constraint, which Agile forbids." }
+        ],
+        answer: "B",
+        explanation: "Mỗi Sprint Goal phải là một bước tiến cụ thể hướng tới Product Goal chung ('AI-driven analytics dashboard'). Việc đặt Sprint 3 Goal làm tính năng gửi email marketing tự động là lệch khỏi định hướng Product Goal của nền tảng phân tích dữ liệu."
+      },
+      {
+        id: 8,
+        domain: "Agile & Scrum",
+        topic: "Product Owner Final Authority",
+        question: "An e-commerce company is approaching a major 'Cyber Monday' sales event next month.\nClues:\n1. CEO urgently demands a new \"Flash Sale Countdown Timer\" be placed at the very top of the Product Backlog.\n2. Lead Developer argues that an item called \"Server Load Balancing\" must stay at the top, or the site might crash during the sale.\n3. Product Owner analyzes the market data and believes a \"Quick Checkout\" feature will yield the highest ROI for the event.\n\nAccording to the Scrum framework, who has the final authority to decide the order of the Product Backlog in this high-pressure scenario?",
+        options: [
+          { key: "A", text: "Lead Developer, because technical infrastructure and site stability always take mandatory precedence over business features." },
+          { key: "B", text: "CEO, because executive stakeholders possess the ultimate veto power over the Scrum Team's workload and priorities." },
+          { key: "C", text: "Scrum Master, who must act as a neutral referee and facilitate a vote between CEO, Lead Developer, and Product Owner." },
+          { key: "D", text: "Product Owner, who is solely accountable for maximizing the value of the product and has the final say on the order of the Product Backlog." }
+        ],
+        answer: "D",
+        explanation: "Theo Scrum Guide: 'For the Product Owner to succeed, the entire organization must respect their decisions.' Dù CEO hay Lead Developer có đưa ra lập luận gì, họ cần thuyết phục Product Owner, và Product Owner vẫn là người có thẩm quyền cuối cùng quyết định thứ tự Product Backlog."
+      },
+      {
+        id: 9,
+        domain: "Agile & Scrum",
+        topic: "Agile Iron Triangle (Fixed Time & Capacity)",
+        question: "An e-commerce team is preparing for an immovable \"Black Friday\" mega-sale happening in exactly 3 Sprints. The Development team's capacity is fixed (no new hires possible). Stakeholders have submitted 25 \"must-have\" features for the sale. The team has estimated the work and mathematically proved they only have the capacity to deliver a maximum of 12 features before the hard deadline.\n\nGiven the constraints of fixed time and fixed team capacity, which strategic decision best aligns with Agile and Scrum principles?",
+        options: [
+          { key: "A", text: "Product Owner works with stakeholders to prioritize the Product Backlog, which selects the 12 highest-value features to complete and accepts that the remaining 13 will not be built for this event." },
+          { key: "B", text: "Scrum Master mandates mandatory overtime and weekend shifts for Developers for the next 3 Sprints to ensure all 25 features are delivered to the stakeholders." },
+          { key: "C", text: "Developers reduce the Definition of Done (e.g., skipping automated testing) to artificially inflate their velocity and deliver all 25 features before the Black Friday deadline." },
+          { key: "D", text: "Product Owner pushes the Black Friday release date back by 3 Sprints to ensure the product has all requested features before going live to the public." }
+        ],
+        answer: "A",
+        explanation: "Trong Tam giác Ràng buộc Agile (Agile Iron Triangle), khi Thời gian (3 Sprints - Black Friday không thể dời), Nguồn lực (Capacity cố định) và Chất lượng (DoD) là cố định, biến số duy nhất điều chỉnh là Phạm vi (Scope): PO làm việc với Stakeholders để chọn 12 tính năng mang lại giá trị cao nhất."
+      },
+      {
+        id: 10,
+        domain: "Agile & Scrum",
+        topic: "Maximizing Product Value",
+        question: "In Agile/Scrum, which role is strictly accountable for maximizing the value of the product and managing the Product Backlog?",
+        options: [
+          { key: "A", text: "Project Manager" },
+          { key: "B", text: "Product Owner" },
+          { key: "C", text: "Lead Business Analyst" },
+          { key: "D", text: "Quality Assurance" }
+        ],
+        answer: "B",
+        explanation: "Theo Scrum Guide: 'The Product Owner is accountable for maximizing the value of the product resulting from the work of the Scrum Team' và chịu trách nhiệm quản lý Product Backlog."
+      },
+      {
+        id: 11,
+        domain: "PM",
+        topic: "Sprint Capacity Planning",
+        question: "A software development unit operates with 5 full-time engineers, providing a nominal capacity of 200 hours per sprint. During Sprint planning, the PM accounts for 20 hours of mandatory recurring meetings, 15 hours of production bug support, and 25 hours of planned team leave. If the team estimates a new feature backlog epic at 160 story hours, how should the PM handle the sprint commitment?",
+        options: [
+          { key: "A", text: "Commit to the full 160-hour epic because nominal capacity exceeds the estimated workload requirement" },
+          { key: "B", text: "Reject committing the full epic in this sprint, as net available capacity for planned feature work is only 140 hours." },
+          { key: "C", text: "Require the engineering team to log 20 hours of overtime to bridge the temporary operational capacity gap" },
+          { key: "D", text: "Reclassify production bug support tasks as project capital expenditure to artificially expand sprint capacity" }
+        ],
+        answer: "B",
+        explanation: "Công suất ròng khả dụng (Net Available Capacity) = 200 giờ (danh nghĩa) - 20 giờ (họp) - 15 giờ (hỗ trợ bug) - 25 giờ (nghỉ phép) = 140 giờ. Vì Epic mới cần 160 giờ (> 140 giờ khả dụng), đội không được cam kết nhận toàn bộ Epic 160 giờ vào Sprint này."
+      },
+      {
+        id: 12,
+        domain: "PM",
+        topic: "Planning Poker & Estimation Integrity",
+        question: "During a Sprint Planning session for a mission-critical payment microservice, the cross-functional team evaluates STORY-402, which involves integrating a newly updated 3rd-party banking API. The story has an estimated 80 actual developer hours based on historical legacy logs.\n\nWhen playing Planning Poker, two Senior Engineers select 13 Story Points, citing undocumented API edge cases, lack of automated test stubs, and high compliance risk. Conversely, a Junior Developer selects 3 Story Points, pointing out that the Figma mockup contains only two basic input fields and a simple submit button. The Product Owner pressure-prompts the team to resolve the gap immediately to meet the sprint's planned commitment velocity.\n\nWhich action should the Project Manager take to maintain estimation integrity?",
+        options: [
+          { key: "A", text: "Accept 8 Story Points as an immediate mathematical compromise between the 80 historical developer hours and the team's divergent estimates, allowing the Product Owner to finalize the Sprint Backlog without scope reduction." },
+          { key: "B", text: "Adopt the Senior Engineers' 13 Story Points immediately to safeguard the sprint commitment, asserting that senior architectural authority supersedes junior front-end assumptions when handling high-risk compliance components." },
+          { key: "C", text: "Facilitate a focused discussion for the team to present the assumptions and technical risks driving their estimates, aiming to uncover hidden complexity or missing criteria before reaching a consensus score." },
+          { key: "D", text: "Direct the team to deconstruct STORY-402 into separate functional sub-tasks, assigning the front-end UI work at 3 Story Points to the Junior Developer while logging a separate risk spike for the backend integration." }
+        ],
+        answer: "C",
+        explanation: "Trong kỹ thuật Planning Poker, khi có sự phân cực lớn giữa các lá bài (3 SP vs. 13 SP), người điều phối (PM/Scrum Master) không lấy trung bình cộng (A) hay áp đặt theo cấp bậc (B), mà phải tạo điều kiện cho hai đầu cực trình bày giả định và rủi ro kỹ thuật để làm lộ ra độ phức tạp ẩn trước khi ước lượng lại đạt đồng thuận (Consensus)."
+      },
+      {
+        id: 13,
+        domain: "PM",
+        topic: "Risk Management & Scope Trade-off",
+        question: "A multi-node data migration project must go live by the end of the quarter to avoid a regulatory non-compliance penalty of $500,000 per day. Midway through execution, two lead database architects abruptly resign, reducing core technical capacity by 50%. The lead tech confirms that migrating 100% of historical records on time is impossible without skipping data integrity checks. Which decision represents the optimal risk management trade-off?",
+        options: [
+          { key: "A", text: "Compress the schedule (Crashing) by urgently hiring external experts, accepting budget overruns to maintain scope and quality." },
+          { key: "B", text: "Migrate active accounts only to meet the compliance deadline, deferring historical data to a subsequent update." },
+          { key: "C", text: "Request a deadline extension from the project sponsor to ensure data integrity, accompanied by a financial impact report." },
+          { key: "D", text: "Execute data migration and integrity checks in parallel, accepting the risk of rework on certain nodes." }
+        ],
+        answer: "B",
+        explanation: "Trước hạn chót pháp lý cứng ($500,000 phạt mỗi ngày) và việc không được phép hy sinh tính toàn vẹn dữ liệu (data integrity), giải pháp tối ưu theo tư duy Incremental Delivery & Risk Trade-off là ưu tiên di chuyển các tài khoản đang hoạt động (active accounts) để kịp tuân thủ đúng hạn, và hoãn dữ liệu lịch sử sang đợt cập nhật tiếp theo."
+      },
+      {
+        id: 14,
+        domain: "PO",
+        topic: "Problem Statement Definition",
+        question: "This month, 15% of customers added items to cart but did not complete checkout, and exit surveys cite 'unexpected shipping costs' as the top reason. Which statement below correctly represents the Problem?",
+        options: [
+          { key: "A", text: "Customers abandoning checkout due to unexpected shipping costs" },
+          { key: "B", text: "Shipping costs displayed earlier on the cart page may increase cost transperancy" },
+          { key: "C", text: "Offering free shipping as an incentive for loyalty members" },
+          { key: "D", text: "The checkout page was redesigned last quarter" }
+        ],
+        answer: "A",
+        explanation: "Phân biệt rõ Problem (Vấn đề cần giải quyết) và Solution/Hypothesis (Giải pháp/Giả thuyết): Phương án A nêu đúng vấn đề thực tế từ dữ liệu ('Khách hàng bỏ giỏ hàng ở bước thanh toán do phí vận chuyển bất ngờ'), trong khi B và C là giải pháp đề xuất, còn D chỉ là sự kiện lịch sử."
+      },
+      {
+        id: 15,
+        domain: "PO",
+        topic: "User Need Identification",
+        question: "Long-time customers (5+ years) increasingly use budgeting features and message the bank asking whether their spending analytics can be exported to their own spreadsheets. Which underlying user need is best supported by this evidence?",
+        options: [
+          { key: "A", text: "The ability to export their budgeting data for analysis" },
+          { key: "B", text: "A referral bonus for bringing in new customers" },
+          { key: "C", text: "Faster card issuance for new accounts" },
+          { key: "D", text: "In-branch appointment scheduling" }
+        ],
+        answer: "A",
+        explanation: "Bằng chứng thực nghiệm từ hành vi và tin nhắn của nhóm khách hàng lâu năm chỉ trực tiếp tới nhu cầu xuất dữ liệu chi tiêu/ngân sách ra bảng tính riêng để tự phân tích sâu hơn."
+      },
+      {
+        id: 16,
+        domain: "PO",
+        topic: "Executable Solution under Constraints",
+        question: "Artifact: Mobile Banking Onboarding Data: \"New customers abandon the app during the identity check. The app keeps rejecting the photos of their ID cards because of glare or bad lighting.\"\n\nConstraint:\n(1) The bank buys this ID-scanning software from a third-party company. We cannot change the core scanning software for the next 12 months.\n(2) We only have enough staff to manually check 50 ID cards a day.\n\nWhat is the most executable solution to fix this?",
+        options: [
+          { key: "A", text: "Cancel the contract with the third-party company and build a brand new custom ID scanning tool entirely in-house." },
+          { key: "B", text: "Send every rejected ID photo to the bank staff so they can manually review and approve the accounts." },
+          { key: "C", text: "Add a quick visual animation on the camera screen showing users how to hold their ID to avoid glare before they take the photo." },
+          { key: "D", text: "Allow customers to completely bypass the ID check and open accounts using just their phone number and email." }
+        ],
+        answer: "C",
+        explanation: "Phương án A vi phạm ràng buộc hợp đồng 12 tháng; B vượt quá năng lực nhân sự (chỉ duyệt tay được 50 thẻ/ngày); D vi phạm nghiêm trọng quy định pháp lý eKYC ngân hàng. Phương án C (thêm hướng dẫn trực quan trên màn hình camera giúp người dùng chụp không bị lóa) là giải pháp UX khả thi cao nhất (Quick Win) nằm gọn trong mọi ràng buộc."
+      },
+      {
+        id: 17,
+        domain: "PO",
+        topic: "MoSCoW Prioritization",
+        question: "An e-commerce product manager is sorting the backlog using MoSCoW before a fixed holiday launch. A critical bug preventing 10% of users from resetting their passwords exists alongside a highly requested \"wishlist\" UI animation.\n\nAccording to MoSCoW logic, how should these two items be categorized?",
+        options: [
+          { key: "A", text: "Both items must be labeled as Must Have because they both directly affect the customer's overall shopping experience." },
+          { key: "B", text: "The wishlist animation is a Could Have for marketing, while the password bug is a Should Have as it is important." },
+          { key: "C", text: "The bug fix is a Must Have for basic access, while the UI animation is a Could Have." },
+          { key: "D", text: "Neither item should be included in the release because the MoSCoW framework only applies to entirely new features." }
+        ],
+        answer: "C",
+        explanation: "Theo khung ưu tiên MoSCoW: Lỗi nghiêm trọng chặn 10% người dùng khôi phục mật khẩu (chức năng truy cập cốt lõi) bắt buộc là Must Have; còn hiệu ứng chuyển động UI cho nút Wishlist là tính năng làm đẹp thêm (Nice-to-have) nên xếp vào Could Have."
+      },
+      {
+        id: 18,
+        domain: "PO",
+        topic: "Constraint-Based Decision Making",
+        question: "You need a \"Spending Analytics\" dashboard to hit your Q2 KPI (Increase User Retention). You have a hard budget of $50,000 and a hard deadline of 4 weeks.\n\nOptions:\n- Vendor X: Pre-built dashboard. Cost: $40,000. Integration effort: 3 weeks. Retention impact: High.\n- Internal Build: Custom dashboard. Cost: $25,000. Effort: 6 weeks. Retention impact: High.\n- Vendor Y: Basic weekly text email. Cost: $7,000. Integration effort: 1 week. Retention impact: Low.\n\nWhich option must you choose?",
+        options: [
+          { key: "A", text: "Choose the custom Internal Build because it saves half of the budget and costs $15,000 less than Vendor X." },
+          { key: "B", text: "Select Vendor X because it fits within the constraints and improves user retention metrics." },
+          { key: "C", text: "Choose Vendor Y because it is the absolute cheapest option and takes the least time." },
+          { key: "D", text: "Combine Vendor Y and the Internal Build so the team sends emails immediately while slowly building a custom dashboard over the course of next year." }
+        ],
+        answer: "B",
+        explanation: "Kiểm tra đồng thời 3 điều kiện: (1) Ngân sách <= $50,000; (2) Thời gian <= 4 tuần; (3) Đạt KPI tăng Retention (Impact: High). Internal Build mất 6 tuần (vi phạm hạn chót 4 tuần); Vendor Y có Retention impact thấp (không đạt KPI). Chỉ có Vendor X ($40k <= $50k, 3 tuần <= 4 tuần, Impact: High) thỏa mãn toàn bộ."
+      },
+      {
+        id: 19,
+        domain: "BA",
+        topic: "BABOK Requirement Classification",
+        question: "An e-commerce company starts an initiative with the following requirement:\n\n\"Reduce the average order cancellation rate from 12% to below 7% within six months after the initiative is launched.\"\n\nHow should this requirement be classified?",
+        options: [
+          { key: "A", text: "Business Requirement" },
+          { key: "B", text: "Stakeholder Requirement" },
+          { key: "C", text: "Solution Requirement" },
+          { key: "D", text: "Transition Requirement" }
+        ],
+        answer: "A",
+        explanation: "Theo chuẩn BABOK v3, các phát biểu về mục tiêu cấp cao, thước đo kinh doanh và lý do khởi xướng dự án của tổ chức (như giảm tỷ lệ hủy đơn từ 12% xuống dưới 7% trong 6 tháng) được phân loại là Business Requirement."
+      },
+      {
+        id: 20,
+        domain: "BA",
+        topic: "User Story & Acceptance Criteria",
+        question: "An e-commerce platform allows returning customers to reuse previously saved information during checkout. The following User Story is given:\n\n\"As a returning customer, I want to select a saved delivery address during checkout so that I do not have to enter my delivery details again.\"\n\nWhich of the following is the most appropriate Acceptance Criterion for this User Story?",
+        options: [
+          { key: "A", text: "A saved delivery address can be selected during checkout without re-entering its details." },
+          { key: "B", text: "Saved delivery addresses are presented in a convenient and accessible way during checkout." },
+          { key: "C", text: "A saved delivery address can be edited from the customer's profile before checkout." },
+          { key: "D", text: "Saved delivery addresses are displayed during checkout before a new address is entered." }
+        ],
+        answer: "A",
+        explanation: "Một Acceptance Criterion (Tiêu chí nghiệm thu) tốt phải kiểm thử được rõ ràng (Testable) và xác minh trực tiếp mục tiêu của User Story ('chọn địa chỉ đã lưu khi thanh toán mà không phải nhập lại chi tiết'). Phương án B dùng từ cảm tính mơ hồ ('convenient and accessible'); C lệch phạm vi sang trang Profile; D chỉ mới nói về hiển thị chứ chưa xác nhận hành động chọn địa chỉ mà không phải nhập lại."
+      },
+      {
+        id: 21,
+        domain: "BA",
+        topic: "Use Case Modeling & System Actors",
+        question: "An e-commerce company is analyzing its online checkout system. A customer confirms an order through the website. The system sends a payment request to an external payment gateway. An internal order-processing component creates the order, and the order database stores the order details.\n\nWhen modeling the online checkout system, which pair should be treated as Actors interacting with the system?",
+        options: [
+          { key: "A", text: "Customer and order database" },
+          { key: "B", text: "Payment gateway and order-processing component" },
+          { key: "C", text: "Customer and external payment gateway" },
+          { key: "D", text: "Order-processing component and order database" }
+        ],
+        answer: "C",
+        explanation: "Trong mô hình hóa Use Case / Context Diagram, Actor là các thực thể nằm BÊN NGOÀI ranh giới hệ thống (System Boundary) và tương tác trực tiếp với hệ thống: ở đây là Customer (Primary Human Actor) và External Payment Gateway (Secondary/External System Actor). Các thành phần nội bộ như internal order-processing component và order database nằm bên trong ranh giới hệ thống."
+      },
+      {
+        id: 22,
+        domain: "BA",
+        topic: "Requirements vs. Design",
+        question: "An e-commerce company wants customers to know when their orders are expected to arrive before placing an order. During solution analysis, the following statements are documented.\n\nWhich statement is best classified as a Design rather than a Requirement?",
+        options: [
+          { key: "A", text: "Customers must be able to view the estimated delivery date before confirming an order." },
+          { key: "B", text: "The system must provide an estimated delivery date for eligible delivery addresses." },
+          { key: "C", text: "The estimated delivery date must be available during checkout." },
+          { key: "D", text: "The checkout system calls the logistics provider's API to retrieve the estimated delivery date." }
+        ],
+        answer: "D",
+        explanation: "Requirement mô tả 'WHAT' (hệ thống cần mang lại khả năng gì cho người dùng/nghiệp vụ - như A, B, C), còn Design mô tả 'HOW' (cách thức kỹ thuật cụ thể để hiện thực hóa yêu cầu đó - ở đây là việc hệ thống gọi API của đối tác logistics để lấy ngày giao hàng)."
+      },
+      {
+        id: 23,
+        domain: "BA",
+        topic: "Requirement Verification & Inconsistency Review",
+        question: "An e-commerce company is reviewing an order-cancellation feature before development. The following artifacts represent the complete defined requirements for the feature.\n\nDuring requirement review, four reviewers provide the following findings. Which review finding correctly identifies the two inconsistencies that should be resolved before development?",
+        note: "The original requirement artifacts (User Story, AC1, AC2, Business Flow, Proposed Solution) were image-based on the exam portal; B is the verified correct answer key.",
+        options: [
+          { key: "A", text: "The User Story should include the exact 3-second limit, and the Business Flow should display the response-time requirement." },
+          { key: "B", text: "AC1 allows a successful cancellation result to take longer than required, while the Proposed Solution incorrectly changes a rejected SHIPPED order to CANCELLED." },
+          { key: "C", text: "AC2 should allow cancellation of a SHIPPED order, while the Proposed Solution should increase its response-time target to 5 seconds to match AC1." },
+          { key: "D", text: "The Business Flow should include separate paths for the 3-second and 5-second responses, while the Proposed Solution should return the original order status after every cancellation request." }
+        ],
+        answer: "B",
+        explanation: "Trong rà soát đặc tả (Requirement Review), hai lỗi mâu thuẫn kinh điển giữa các tạo tác là: (1) Mâu thuẫn phi chức năng (SLA thời gian phản hồi trong AC1 dài hơn yêu cầu cho phép); và (2) Mâu thuẫn máy trạng thái (State Machine bug trong Proposed Solution khi đơn hàng đã SHIPPED bị từ chối hủy nhưng lại bị đổi trạng thái thành CANCELLED)."
+      },
+      {
+        id: 24,
+        domain: "DEV",
+        topic: "API Fundamentals",
+        question: "What is an API?",
+        options: [
+          { key: "A", text: "A programming language used to build user interfaces for web applications." },
+          { key: "B", text: "An application programming interface that acts as a bridge, allowing different software systems to communicate and exchange data with each other." },
+          { key: "C", text: "A type of database used for securely storing user account credentials." },
+          { key: "D", text: "A physical server hardware responsible for processing network queries and storing files." }
+        ],
+        answer: "B",
+        explanation: "API (Application Programming Interface) là giao diện lập trình ứng dụng đóng vai trò cầu nối chuẩn hóa giúp các hệ thống phần mềm khác nhau giao tiếp và trao đổi dữ liệu."
+      },
+      {
+        id: 25,
+        domain: "DEV",
+        topic: "Backend Request Lifecycle",
+        question: "A mobile app calls GET /api/v1/users/102 to display a profile page. The Backend receives the request from the API endpoint. What is the primary role of the Backend before returning data to the Client?",
+        options: [
+          { key: "A", text: "To directly render CSS styles and execute JavaScript in the user's mobile browser." },
+          { key: "B", text: "To authenticate the request, query the Database for user 102, format the result (e.g., JSON), and return the HTTP Response." },
+          { key: "C", text: "To store the user's password in plain text directly inside the Request Headers." },
+          { key: "D", text: "To act as a physical router that routes internet traffic between local ISPs." }
+        ],
+        answer: "B",
+        explanation: "Khi nhận request RESTful API `GET /api/v1/users/102`, trách nhiệm chính của tầng Backend là xác thực/phân quyền request, truy vấn dữ liệu người dùng 102 từ Database, đóng gói dữ liệu (thường ở định dạng JSON) và trả về HTTP Response."
+      },
+      {
+        id: 26,
+        domain: "DEV",
+        topic: "AI Agent: Function Calling vs. RAG",
+        question: "An e-commerce platform needs an AI agent to help users track orders and request refunds. When a user asks: \"Where is package #9910, and can you issue a $10 refund voucher for it?\" Why is Function Calling required here instead of RAG?",
+        options: [
+          { key: "A", text: "RAG reads static document stores, whereas checking live status and issuing vouchers require API calls to external systems." },
+          { key: "B", text: "RAG replaces the LLM with deterministic SQL scripts, eliminating the need for natural language processing capabilities." },
+          { key: "C", text: "RAG requires writing custom Python code for every user query, making response times too slow for live order tracking." },
+          { key: "D", text: "RAG automatically updates the base LLM weights in real time whenever an order status changes in the database." }
+        ],
+        answer: "A",
+        explanation: "RAG (Retrieval-Augmented Generation) dùng để truy xuất tri thức từ kho tài liệu tĩnh/bán tĩnh, trong khi việc kiểm tra trạng thái đơn hàng thời gian thực (#9910) và thực thi hành động nghiệp vụ (phát hành voucher hoàn tiền $10) đòi hỏi AI Agent phải sử dụng Function Calling / Tool Calling để gọi API tới các hệ thống bên ngoài."
+      },
+      {
+        id: 27,
+        domain: "DEV",
+        topic: "Microservice Resilience & API Timeouts",
+        question: "An online store calls an external Shipping API during checkout. The Shipping API occasionally takes 20 seconds to respond, causing the checkout request to hang. What is the most appropriate basic handling?",
+        options: [
+          { key: "A", text: "Set a reasonable timeout and return a controlled error or fallback; retry only in a limited and safe way if appropriate." },
+          { key: "B", text: "Wait indefinitely until the Shipping API eventually responds." },
+          { key: "C", text: "Retry the Shipping API continuously with no delay until it succeeds." },
+          { key: "D", text: "Mark the checkout as successful even though no shipping result was received." }
+        ],
+        answer: "A",
+        explanation: "Khi tích hợp API bên thứ ba có độ trễ bất thường, nguyên tắc thiết kế hệ thống chịu lỗi (Resilience Pattern) là thiết lập Timeout hợp lý, trả về lỗi có kiểm soát hoặc phương án Fallback, và chỉ Retry có giới hạn (với Exponential Backoff và đảm bảo tính Idempotency) để tránh làm treo luồng thanh toán hoặc gây bão request."
+      },
+      {
+        id: 28,
+        domain: "QA",
+        topic: "ISO/IEC/IEEE 29119-3 Test Design",
+        question: "In formal test design standards (ISO/IEC/IEEE 29119-3), what fundamentally distinguishes a Test Execution Step from an Expected Result?",
+        options: [
+          { key: "A", text: "A Test Step defines execution actions driving the SUT, whereas an Expected Result defines criteria for pass/fail verification." },
+          { key: "B", text: "A Test Step specifies data payloads transmitted to input interfaces, whereas an Expected Result defines baseline system states required prior to dynamic test execution." },
+          { key: "C", text: "A Test Step represents post-execution environment teardown routines, whereas an Expected Result captures dynamic memory allocation metrics during runtime execution." },
+          { key: "D", text: "A Test Step defines front-end user interface element locators, whereas an Expected Result specifies back-end infrastructure server provisioning configurations." }
+        ],
+        answer: "A",
+        explanation: "Theo tiêu chuẩn thiết kế kiểm thử ISO/IEC/IEEE 29119-3: Test Execution Step quy định các hành động thực thi tương tác với hệ thống cần kiểm thử (System Under Test - SUT), trong khi Expected Result định nghĩa hành vi/kết quả đầu ra kỳ vọng làm tiêu chuẩn đối chiếu để đánh giá Pass hay Fail."
+      },
+      {
+        id: 29,
+        domain: "QA",
+        topic: "ISTQB v4.0 Defect Lifecycle & Traceability",
+        question: "During Regression Testing of a medical device microservice, an automated test case mapped to REQ_SAFETY_04 fails. The QA Lead logs BUG-108 and flags REQ_SAFETY_04 as BLOCKED. Two days later, the development team pushes a hotfix and changes BUG-108 status directly to CLOSED in the tracking tool, asserting that unit tests passed locally.\n\nAccording to standardized defect lifecycle and traceability management standards (ISTQB v4.0 and ISO/IEC/IEEE 29119-3), what is the mandatory next action the QA Lead must take to ensure process integrity?",
+        options: [
+          { key: "A", text: "Accept the CLOSED status immediately to maintain deployment velocity, while updating REQ_SAFETY_04 status to PASSED based on developer local unit test logs." },
+          { key: "B", text: "Reopen BUG-108 and permanently block the release pipeline, asserting that developer local unit testing violates medical safety compliance protocols." },
+          { key: "C", text: "Reject the premature status change and move BUG-108 to RESOLVED, requiring confirmation and regression testing before setting REQ_SAFETY_04 to PASSED." },
+          { key: "D", text: "Delete BUG-108 from the defect repository, creating a new incident ticket to isolate hotfix verification history from baseline regressions." }
+        ],
+        answer: "C",
+        explanation: "Theo chuẩn vòng đời lỗi ISTQB v4.0: Developer sau khi sửa lỗi chỉ được chuyển trạng thái bug sang RESOLVED / FIXED (hoặc READY FOR RETEST), tuyệt đối không tự ý đóng (CLOSED). QA phải từ chối việc đóng sớm này, chuyển về RESOLVED và thực hiện Confirmation Testing (Re-test) + Regression Testing trên môi trường kiểm thử trước khi đóng bug và chuyển REQ_SAFETY_04 sang PASSED."
+      },
+      {
+        id: 30,
+        domain: "DEV",
+        topic: "Web Security: Authentication vs. Authorization (BFLA)",
+        question: "A web application hides the 'Approve Loan' button from normal users after login. However, the backend endpoint POST /admin/loans/{id}/approve only checks that the request contains a valid login token; it does not check the user's role. A normal user calls the endpoint directly and successfully approves a loan. What is the primary security issue and fix?",
+        options: [
+          { key: "A", text: "Authentication is missing; require every user to create a longer password." },
+          { key: "B", text: "Authorization is missing; enforce role/permission checks on the backend for the approval endpoint." },
+          { key: "C", text: "Encryption is missing; Base64-encode the login token before sending it." },
+          { key: "D", text: "CORS is missing; block all requests that come from a browser." }
+        ],
+        answer: "B",
+        explanation: "Hệ thống đã kiểm tra login token hợp lệ (tức là đã có Authentication - Xác thực danh tính), nhưng lại thiếu Authorization (Phân quyền - kiểm tra xem user đó có Role Admin được phép duyệt khoản vay hay không). Việc chỉ ẩn nút trên giao diện Frontend không có tác dụng bảo mật; bắt buộc phải kiểm tra quyền (RBAC/Permission check) tại tầng Backend API."
+      }
+    ];
+
+    const DOMAIN_META = {
+      "Agile & Scrum": { label: "Agile & Scrum", color: "emerald", badgeClass: "bg-emeraldAccent/15 text-emeraldAccent border-emeraldAccent/30" },
+      "PM":            { label: "Project Manager (PM)", color: "cyan", badgeClass: "bg-cyanAccent/15 text-cyanAccent border-cyanAccent/30" },
+      "PO":            { label: "Product Owner (PO)", color: "amber", badgeClass: "bg-amberAccent/15 text-amberAccent border-amberAccent/30" },
+      "BA":            { label: "Business Analyst (BA)", color: "purple", badgeClass: "bg-purple-500/15 text-purple-400 border-purple-500/30" },
+      "DEV":           { label: "Developer (DEV)", color: "blue", badgeClass: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
+      "QA":            { label: "Quality Assurance (QA)", color: "rose", badgeClass: "bg-roseAccent/15 text-roseAccent border-roseAccent/30" }
+    };
+
+    const STORAGE_KEY = "hack4biz_quiz_30_state_v1";
+
+    // =========================================================================
+    // 2. APPLICATION STATE (NO TIMER)
+    // =========================================================================
+    let state = {
+      mode: "instant",          // 'instant' | 'exam'
+      view: "single",           // 'single' | 'list'
+      examSubmitted: false,     // true when exam mode is graded
+      currentIndex: 0,          // index within filteredOrder
+      activeDomain: "all",      // 'all' | domain key
+      statusFilter: "all",      // 'all' | 'unanswered' | 'flagged' | 'wrong'
+      searchQuery: "",
+      shuffleQuestions: false,
+      shuffleOptions: false,
+      questionOrder: QUIZ_QUESTIONS.map(q => q.id),
+      optionOrders: {},         // { [questionId]: ['A','B','C','D'] }
+      userAnswers: {},          // { [questionId]: 'A' | 'B' | 'C' | 'D' }
+      flagged: {},              // { [questionId]: true }
+      showExplanation: {},      // { [questionId]: boolean }
+      transitionDir: "up"       // 'up' | 'next' | 'prev'
+    };
+
+    function initDefaultOptionOrders() {
+      QUIZ_QUESTIONS.forEach(q => {
+        if (!state.optionOrders[q.id]) {
+          state.optionOrders[q.id] = ["A", "B", "C", "D"];
+        }
+      });
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state = { ...state, ...parsed };
+        }
+      } catch (e) {
+        console.warn("Could not read localStorage state:", e);
+      }
+      initDefaultOptionOrders();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          mode: state.mode,
+          view: state.view,
+          examSubmitted: state.examSubmitted,
+          currentIndex: state.currentIndex,
+          activeDomain: state.activeDomain,
+          statusFilter: state.statusFilter,
+          shuffleQuestions: state.shuffleQuestions,
+          shuffleOptions: state.shuffleOptions,
+          questionOrder: state.questionOrder,
+          optionOrders: state.optionOrders,
+          userAnswers: state.userAnswers,
+          flagged: state.flagged,
+          showExplanation: state.showExplanation
+        }));
+      } catch (e) {
+        console.warn("Could not save localStorage state:", e);
+      }
+    }
+
+    // =========================================================================
+    // 3. FILTERING & HELPERS
+    // =========================================================================
+    function getQuestionById(id) {
+      return QUIZ_QUESTIONS.find(q => q.id === id);
+    }
+
+    function isQuestionEvaluated(qId) {
+      if (!state.userAnswers[qId]) return false;
+      return state.mode === "instant" || state.examSubmitted;
+    }
+
+    function getFilteredQuestions() {
+      const ordered = state.questionOrder.map(id => getQuestionById(id)).filter(Boolean);
+      return ordered.filter(q => {
+        if (state.activeDomain !== "all" && q.domain !== state.activeDomain) return false;
+        if (state.statusFilter === "unanswered" && state.userAnswers[q.id]) return false;
+        if (state.statusFilter === "flagged" && !state.flagged[q.id]) return false;
+        if (state.statusFilter === "wrong") {
+          const ans = state.userAnswers[q.id];
+          if (!ans || !isQuestionEvaluated(q.id) || ans === q.answer) return false;
+        }
+        if (state.searchQuery.trim() !== "") {
+          const needle = state.searchQuery.toLowerCase();
+          const inQ = q.question.toLowerCase().includes(needle);
+          const inTopic = q.topic.toLowerCase().includes(needle);
+          const inOpt = q.options.some(o => o.text.toLowerCase().includes(needle));
+          const inExp = q.explanation.toLowerCase().includes(needle);
+          if (!inQ && !inTopic && !inOpt && !inExp) return false;
+        }
+        return true;
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function formatQuestionText(text) {
+      const escaped = escapeHtml(text);
+      return escaped
+        .split("\n\n")
+        .map(para => `<p class="leading-relaxed">${para.replace(/\n/g, "<br/>")}</p>`)
+        .join("");
+    }
+
+    // =========================================================================
+    // 4. UI RENDERING
+    // =========================================================================
+    function renderCategoryPills() {
+      const container = document.getElementById("category-pills");
+      const counts = { all: QUIZ_QUESTIONS.length };
+      QUIZ_QUESTIONS.forEach(q => {
+        counts[q.domain] = (counts[q.domain] || 0) + 1;
+      });
+
+      const domains = ["all", ...Object.keys(DOMAIN_META)];
+      container.innerHTML = domains.map(dom => {
+        const isActive = state.activeDomain === dom;
+        const label = dom === "all" ? "Tất cả chuyên đề" : dom;
+        const activeStyle = isActive
+          ? "bg-emeraldAccent text-slate-950 font-semibold border-emeraldAccent shadow-sm"
+          : "elevated-box hover:border-cyanAccent";
+        return `
+          <button
+            onclick="setDomainFilter('${dom}')"
+            class="px-3 py-1.5 rounded-lg text-xs transition-all flex items-center gap-1.5 ${activeStyle}"
+          >
+            <span>${escapeHtml(label)}</span>
+            <span class="mono-num text-[11px] px-1.5 py-0.2 rounded ${isActive ? 'bg-slate-950/20 text-slate-950' : 'opacity-70'}">${counts[dom] || 0}</span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderStatusPills() {
+      const flaggedCount = Object.values(state.flagged).filter(Boolean).length;
+      const wrongCount = QUIZ_QUESTIONS.filter(q => {
+        const ans = state.userAnswers[q.id];
+        return ans && isQuestionEvaluated(q.id) && ans !== q.answer;
+      }).length;
+
+      document.getElementById("count-flagged").textContent = flaggedCount;
+      document.getElementById("count-wrong").textContent = wrongCount;
+
+      document.querySelectorAll(".status-pill").forEach(btn => {
+        const status = btn.getAttribute("data-status");
+        if (status === state.statusFilter) {
+          btn.className = "status-pill px-2.5 py-1 rounded-md text-xs font-semibold bg-cyanAccent/20 text-cyanAccent border border-cyanAccent/50";
+        } else {
+          btn.className = "status-pill px-2.5 py-1 rounded-md text-xs font-medium elevated-box hover:border-cyanAccent";
+        }
+      });
+    }
+
+    function renderDashboardStats() {
+      const total = QUIZ_QUESTIONS.length;
+      const answeredIds = Object.keys(state.userAnswers).map(Number);
+      const answeredCount = answeredIds.length;
+
+      let correctCount = 0;
+      let wrongCount = 0;
+
+      QUIZ_QUESTIONS.forEach(q => {
+        const ans = state.userAnswers[q.id];
+        if (ans && isQuestionEvaluated(q.id)) {
+          if (ans === q.answer) correctCount++;
+          else wrongCount++;
+        }
+      });
+
+      const evaluatedCount = correctCount + wrongCount;
+      const accuracy = evaluatedCount > 0 ? Math.round((correctCount / evaluatedCount) * 100) : 0;
+      const completionPct = Math.round((answeredCount / total) * 100);
+
+      document.getElementById("top-progress-bar").style.width = `${completionPct}%`;
+      document.getElementById("stat-answered").textContent = answeredCount;
+      document.getElementById("stat-correct").textContent = correctCount;
+      document.getElementById("stat-wrong").textContent = wrongCount;
+
+      const accBadge = document.getElementById("accuracy-badge");
+      if (state.mode === "exam" && !state.examSubmitted) {
+        accBadge.textContent = `Đã chọn ${answeredCount}/30`;
+        accBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold mono-num bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30";
+      } else {
+        accBadge.textContent = `${accuracy}% Chính xác`;
+        accBadge.className = accuracy >= 80
+          ? "px-2.5 py-1 rounded-full text-xs font-bold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30"
+          : accuracy >= 50
+            ? "px-2.5 py-1 rounded-full text-xs font-bold mono-num bg-amberAccent/15 text-amberAccent border border-amberAccent/30"
+            : "px-2.5 py-1 rounded-full text-xs font-bold mono-num bg-roseAccent/15 text-roseAccent border border-roseAccent/30";
+      }
+
+      document.getElementById("btn-retry-wrong").disabled = wrongCount === 0;
+
+      // Update Mode & View Header Buttons
+      const instantBtn = document.getElementById("mode-instant-btn");
+      const examBtn = document.getElementById("mode-exam-btn");
+      if (state.mode === "instant") {
+        instantBtn.className = "px-2.5 py-1.5 rounded-md transition-all bg-emeraldAccent text-slate-950 font-semibold";
+        examBtn.className = "px-2.5 py-1.5 rounded-md transition-all hover:opacity-90";
+        document.getElementById("mode-status-label").textContent = "Chế độ: Luyện tập (Chấm & giải thích ngay)";
+        document.getElementById("submit-btn-text").textContent = "Xem Tổng Kết & Phân Tích Điểm";
+      } else {
+        examBtn.className = "px-2.5 py-1.5 rounded-md transition-all bg-emeraldAccent text-slate-950 font-semibold";
+        instantBtn.className = "px-2.5 py-1.5 rounded-md transition-all hover:opacity-90";
+        document.getElementById("mode-status-label").textContent = state.examSubmitted
+          ? "Chế độ: Thi thử (Đã nộp bài & chấm điểm)"
+          : "Chế độ: Thi thử (Chọn hết rồi bấm Nộp bài)";
+        document.getElementById("submit-btn-text").textContent = state.examSubmitted
+          ? "Xem Báo Cáo Điểm Chi Tiết"
+          : `Nộp Bài & Chấm Điểm (${answeredCount}/30 câu)`;
+      }
+
+      const singleBtn = document.getElementById("view-single-btn");
+      const listBtn = document.getElementById("view-list-btn");
+      if (state.view === "single") {
+        singleBtn.className = "px-2.5 py-1.5 rounded-md transition-all bg-cyanAccent text-slate-950 font-semibold";
+        listBtn.className = "px-2.5 py-1.5 rounded-md transition-all hover:opacity-90";
+      } else {
+        listBtn.className = "px-2.5 py-1.5 rounded-md transition-all bg-cyanAccent text-slate-950 font-semibold";
+        singleBtn.className = "px-2.5 py-1.5 rounded-md transition-all hover:opacity-90";
+      }
+
+      // Shuffle button highlights
+      document.getElementById("btn-shuffle-q").classList.toggle("border-cyanAccent", state.shuffleQuestions);
+      document.getElementById("btn-shuffle-opt").classList.toggle("border-emeraldAccent", state.shuffleOptions);
+    }
+
+    function renderNavigatorGrid(filteredList) {
+      const grid = document.getElementById("navigator-grid");
+      const currentQ = filteredList[state.currentIndex];
+      const filteredIds = new Set(filteredList.map(q => q.id));
+
+      grid.innerHTML = state.questionOrder.map((qId) => {
+        const q = getQuestionById(qId);
+        const ans = state.userAnswers[qId];
+        const evaluated = isQuestionEvaluated(qId);
+        const isFlagged = !!state.flagged[qId];
+        const isCurrent = state.view === "single" && currentQ && currentQ.id === qId;
+        const inFilter = filteredIds.has(qId);
+
+        let colorClass = "elevated-box";
+        if (ans && evaluated) {
+          colorClass = ans === q.answer
+            ? "bg-emeraldAccent/20 border-emeraldAccent text-emeraldAccent font-bold"
+            : "bg-roseAccent/20 border-roseAccent text-roseAccent font-bold";
+        } else if (ans && !evaluated) {
+          colorClass = "bg-cyanAccent/20 border-cyanAccent text-cyanAccent font-bold";
+        }
+
+        const dimClass = inFilter ? "" : "opacity-30";
+        const activeClass = isCurrent ? "active-current" : "";
+
+        return `
+          <button
+            onclick="jumpToQuestionId(${qId})"
+            class="nav-cell relative h-9 rounded-lg text-xs mono-num flex items-center justify-center border ${colorClass} ${dimClass} ${activeClass}"
+            title="Câu ${qId}: ${escapeHtml(q.topic)}"
+          >
+            <span>${qId}</span>
+            ${isFlagged ? '<span class="absolute -top-1 -right-1 text-[10px] text-amberAccent">★</span>' : ''}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function buildQuestionCardHTML(q, indexInFiltered, totalFiltered) {
+      const userAns = state.userAnswers[q.id];
+      const evaluated = isQuestionEvaluated(q.id);
+      const isFlagged = !!state.flagged[q.id];
+      const domainInfo = DOMAIN_META[q.domain] || DOMAIN_META["Agile & Scrum"];
+      const optOrder = state.optionOrders[q.id] || ["A", "B", "C", "D"];
+      const displayLabels = ["A", "B", "C", "D"];
+      const showExp = evaluated && (state.showExplanation[q.id] !== false);
+
+      const optionsHTML = optOrder.map((origKey, idx) => {
+        const optObj = q.options.find(o => o.key === origKey);
+        const displayLetter = displayLabels[idx];
+        const isSelected = userAns === origKey;
+        const isCorrectKey = q.answer === origKey;
+
+        let stateClass = "";
+        let badgeClass = "elevated-box";
+        let statusTag = "";
+
+        if (evaluated) {
+          if (isSelected && isCorrectKey) {
+            stateClass = "correct-choice";
+            badgeClass = "bg-emeraldAccent text-slate-950 border-emeraldAccent font-bold";
+            statusTag = `<span class="ml-auto px-2 py-0.5 rounded text-[11px] font-bold bg-emeraldAccent/20 text-emeraldAccent mono-num shrink-0">✓ Chính xác</span>`;
+          } else if (isSelected && !isCorrectKey) {
+            stateClass = "wrong-choice";
+            badgeClass = "bg-roseAccent text-white border-roseAccent font-bold";
+            statusTag = `<span class="ml-auto px-2 py-0.5 rounded text-[11px] font-bold bg-roseAccent/20 text-roseAccent mono-num shrink-0">✕ Bạn chọn</span>`;
+          } else if (!isSelected && isCorrectKey) {
+            stateClass = "missed-correct";
+            badgeClass = "bg-emeraldAccent/20 text-emeraldAccent border-emeraldAccent font-bold";
+            statusTag = `<span class="ml-auto px-2 py-0.5 rounded text-[11px] font-bold bg-emeraldAccent/20 text-emeraldAccent mono-num shrink-0">✓ Đáp án đúng</span>`;
+          }
+        } else if (isSelected) {
+          stateClass = "selected-exam";
+          badgeClass = "bg-cyanAccent text-slate-950 border-cyanAccent font-bold";
+          statusTag = `<span class="ml-auto px-2 py-0.5 rounded text-[11px] font-semibold bg-cyanAccent/20 text-cyanAccent mono-num shrink-0">Đã chọn</span>`;
+        }
+
+        const origKeyHint = state.shuffleOptions && origKey !== displayLetter
+          ? `<span class="text-[10px] opacity-60 mono-num">(Gốc: ${origKey})</span>`
+          : "";
+
+        return `
+          <button
+            onclick="selectOption(${q.id}, '${origKey}')"
+            class="option-btn w-full text-left p-3.5 sm:p-4 rounded-xl flex items-start gap-3.5 ${stateClass}"
+          >
+            <span class="w-7 h-7 rounded-lg text-xs mono-num flex items-center justify-center shrink-0 border transition-colors ${badgeClass}">
+              ${displayLetter}
+            </span>
+            <div class="flex-1 text-sm leading-relaxed pt-0.5">
+              ${escapeHtml(optObj.text)} ${origKeyHint}
+            </div>
+            ${statusTag}
+          </button>
+        `;
+      }).join("");
+
+      const noteBanner = q.note ? `
+        <div class="p-3 rounded-lg bg-amberAccent/10 border border-amberAccent/30 text-xs flex items-start gap-2.5 text-amberAccent">
+          <span class="font-bold shrink-0">Ghi chú đề gốc:</span>
+          <span>${escapeHtml(q.note)}</span>
+        </div>
+      ` : "";
+
+      const explanationBlock = showExp ? `
+        <div class="mt-4 p-4 rounded-xl bg-emeraldAccent/10 border border-emeraldAccent/30 space-y-2 anim-explanation">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-xs font-bold text-emeraldAccent uppercase tracking-wider">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Đáp án chuẩn: ${q.answer} — Giải thích chuyên môn</span>
+            </div>
+            <button onclick="toggleExplanation(${q.id})" class="text-xs underline opacity-75 hover:opacity-100">Ẩn giải thích</button>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed">${escapeHtml(q.explanation)}</p>
+        </div>
+      ` : (evaluated ? `
+        <div class="mt-3 flex justify-end">
+          <button onclick="toggleExplanation(${q.id})" class="text-xs text-cyanAccent hover:underline font-medium">
+            + Xem giải thích chi tiết
+          </button>
+        </div>
+      ` : "");
+
+      const navFooter = state.view === "single" ? `
+        <div class="pt-4 mt-4 border-t flex flex-wrap items-center justify-between gap-3" style="border-color: var(--border-subtle);">
+          <button
+            onclick="navigateRelative(-1)"
+            ${indexInFiltered === 0 ? "disabled" : ""}
+            class="px-4 py-2 rounded-lg text-xs font-semibold elevated-box hover:border-cyanAccent disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1.5"
+          >
+            <span>← Câu trước</span>
+          </button>
+
+          <div class="flex items-center gap-2">
+            ${userAns ? `
+              <button
+                onclick="clearSingleAnswer(${q.id})"
+                class="px-3 py-2 rounded-lg text-xs font-medium elevated-box hover:border-roseAccent hover:text-roseAccent"
+                title="Xóa lựa chọn của câu này"
+              >
+                Làm lại câu này
+              </button>
+            ` : ""}
+          </div>
+
+          <button
+            onclick="navigateRelative(1)"
+            ${indexInFiltered >= totalFiltered - 1 ? "disabled" : ""}
+            class="px-4 py-2 rounded-lg text-xs font-semibold bg-cyanAccent text-slate-950 hover:bg-cyan-400 disabled:opacity-40 disabled:pointer-events-none flex items-center gap-1.5"
+          >
+            <span>Câu tiếp theo →</span>
+          </button>
+        </div>
+      ` : "";
+
+      const animClass = state.view === "single"
+        ? (state.transitionDir === "next" ? "anim-next" : state.transitionDir === "prev" ? "anim-prev" : "anim-up")
+        : "anim-up";
+
+      return `
+        <article id="q-card-${q.id}" class="surface-card rounded-2xl p-5 sm:p-7 space-y-5 shadow-md ${animClass}">
+          <!-- Card Header -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b" style="border-color: var(--border-subtle);">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2.5 py-1 rounded-md text-xs font-bold mono-num bg-cyanAccent/15 text-cyanAccent border border-cyanAccent/30">
+                Question ${q.id}/30
+              </span>
+              <span class="px-2.5 py-1 rounded-md text-xs font-semibold border ${domainInfo.badgeClass}">
+                ${escapeHtml(domainInfo.label)}
+              </span>
+              <span class="text-xs font-medium" style="color: var(--text-muted);">
+                • ${escapeHtml(q.topic)}
+              </span>
+            </div>
+
+            <button
+              onclick="toggleFlag(${q.id})"
+              class="px-2.5 py-1 rounded-lg text-xs font-medium border transition-all flex items-center gap-1 ${
+                isFlagged
+                  ? "bg-amberAccent/20 border-amberAccent text-amberAccent font-semibold"
+                  : "elevated-box hover:border-amberAccent"
+              }"
+              title="Đánh dấu câu hỏi để xem lại (Phím F)"
+            >
+              <span>${isFlagged ? "★ Đã đánh dấu" : "☆ Đánh dấu"}</span>
+            </button>
+          </div>
+
+          <!-- Question Body -->
+          <div class="text-base sm:text-lg font-medium space-y-2.5">
+            ${formatQuestionText(q.question)}
+          </div>
+
+          ${noteBanner}
+
+          <!-- Options List -->
+          <div class="space-y-2.5 pt-1">
+            ${optionsHTML}
+          </div>
+
+          ${explanationBlock}
+          ${navFooter}
+        </article>
+      `;
+    }
+
+    function renderQuestions() {
+      const viewport = document.getElementById("question-viewport");
+      const filtered = getFilteredQuestions();
+
+      if (filtered.length === 0) {
+        viewport.innerHTML = `
+          <div class="surface-card rounded-2xl p-10 text-center space-y-3">
+            <div class="text-lg font-bold">Không tìm thấy câu hỏi phù hợp với bộ lọc</div>
+            <p class="text-xs" style="color: var(--text-muted);">Hãy thử đổi bộ lọc chuyên đề, trạng thái hoặc xóa từ khóa tìm kiếm.</p>
+            <button onclick="resetFilters()" class="px-4 py-2 rounded-lg text-xs font-semibold bg-cyanAccent text-slate-950">
+              Hiển thị lại tất cả 30 câu hỏi
+            </button>
+          </div>
+        `;
+        renderNavigatorGrid(filtered);
+        return;
+      }
+
+      if (state.currentIndex >= filtered.length) {
+        state.currentIndex = Math.max(0, filtered.length - 1);
+      }
+
+      if (state.view === "single") {
+        const currentQ = filtered[state.currentIndex];
+        viewport.innerHTML = buildQuestionCardHTML(currentQ, state.currentIndex, filtered.length);
+      } else {
+        viewport.innerHTML = filtered
+          .map((q, idx) => buildQuestionCardHTML(q, idx, filtered.length))
+          .join("");
+      }
+
+      renderNavigatorGrid(filtered);
+    }
+
+    function renderAll() {
+      renderCategoryPills();
+      renderStatusPills();
+      renderDashboardStats();
+      renderQuestions();
+      saveState();
+    }
+
+    // =========================================================================
+    // 5. INTERACTION HANDLERS
+    // =========================================================================
+    function selectOption(qId, optKey) {
+      state.userAnswers[qId] = optKey;
+      state.showExplanation[qId] = true;
+      state.transitionDir = "up";
+      renderAll();
+
+      // Check if all 30 questions are answered in instant mode -> celebrate!
+      const answeredCount = Object.keys(state.userAnswers).length;
+      if (state.mode === "instant" && answeredCount === QUIZ_QUESTIONS.length) {
+        launchConfetti();
+      }
+    }
+
+    function clearSingleAnswer(qId) {
+      delete state.userAnswers[qId];
+      delete state.showExplanation[qId];
+      renderAll();
+    }
+
+    function toggleFlag(qId) {
+      state.flagged[qId] = !state.flagged[qId];
+      if (!state.flagged[qId]) delete state.flagged[qId];
+      renderAll();
+    }
+
+    function toggleExplanation(qId) {
+      const curr = state.showExplanation[qId] !== false;
+      state.showExplanation[qId] = !curr;
+      renderAll();
+    }
+
+    function navigateRelative(delta) {
+      const filtered = getFilteredQuestions();
+      const nextIdx = state.currentIndex + delta;
+      if (nextIdx >= 0 && nextIdx < filtered.length) {
+        state.transitionDir = delta > 0 ? "next" : "prev";
+        state.currentIndex = nextIdx;
+        renderAll();
+      }
+    }
+
+    function jumpToQuestionId(qId) {
+      let filtered = getFilteredQuestions();
+      let idx = filtered.findIndex(q => q.id === qId);
+
+      // If target question is hidden by current filter, reset filter to show it
+      if (idx === -1) {
+        state.activeDomain = "all";
+        state.statusFilter = "all";
+        state.searchQuery = "";
+        document.getElementById("search-input").value = "";
+        filtered = getFilteredQuestions();
+        idx = filtered.findIndex(q => q.id === qId);
+      }
+
+      if (state.view === "single") {
+        state.transitionDir = idx > state.currentIndex ? "next" : "prev";
+        state.currentIndex = Math.max(0, idx);
+        renderAll();
+      } else {
+        renderAll();
+        const card = document.getElementById(`q-card-${qId}`);
+        if (card) card.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+
+    function setQuizMode(mode) {
+      state.mode = mode;
+      if (mode === "instant") {
+        state.examSubmitted = false;
+      }
+      renderAll();
+    }
+
+    function setViewMode(view) {
+      state.view = view;
+      state.transitionDir = "up";
+      renderAll();
+    }
+
+    function setDomainFilter(domain) {
+      state.activeDomain = domain;
+      state.currentIndex = 0;
+      state.transitionDir = "up";
+      renderAll();
+    }
+
+    function setStatusFilter(status) {
+      state.statusFilter = status;
+      state.currentIndex = 0;
+      state.transitionDir = "up";
+      renderAll();
+    }
+
+    function handleSearch(val) {
+      state.searchQuery = val;
+      state.currentIndex = 0;
+      document.getElementById("clear-search-btn").classList.toggle("hidden", !val);
+      renderAll();
+    }
+
+    function clearSearch() {
+      state.searchQuery = "";
+      document.getElementById("search-input").value = "";
+      document.getElementById("clear-search-btn").classList.add("hidden");
+      renderAll();
+    }
+
+    function resetFilters() {
+      state.activeDomain = "all";
+      state.statusFilter = "all";
+      clearSearch();
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function toggleShuffleQuestions() {
+      state.shuffleQuestions = !state.shuffleQuestions;
+      if (state.shuffleQuestions) {
+        state.questionOrder = shuffleArray(QUIZ_QUESTIONS.map(q => q.id));
+      } else {
+        state.questionOrder = QUIZ_QUESTIONS.map(q => q.id);
+      }
+      state.currentIndex = 0;
+      state.transitionDir = "up";
+      renderAll();
+    }
+
+    function toggleShuffleOptions() {
+      state.shuffleOptions = !state.shuffleOptions;
+      QUIZ_QUESTIONS.forEach(q => {
+        state.optionOrders[q.id] = state.shuffleOptions
+          ? shuffleArray(["A", "B", "C", "D"])
+          : ["A", "B", "C", "D"];
+      });
+      state.transitionDir = "up";
+      renderAll();
+    }
+
+    function retryWrongQuestions() {
+      const wrongIds = QUIZ_QUESTIONS.filter(q => {
+        const ans = state.userAnswers[q.id];
+        return ans && isQuestionEvaluated(q.id) && ans !== q.answer;
+      }).map(q => q.id);
+
+      if (wrongIds.length === 0) return;
+
+      wrongIds.forEach(id => {
+        delete state.userAnswers[id];
+        delete state.showExplanation[id];
+      });
+      state.activeDomain = "all";
+      state.statusFilter = "unanswered";
+      state.currentIndex = 0;
+      renderAll();
+    }
+
+    function resetAllProgress() {
+      state.userAnswers = {};
+      state.showExplanation = {};
+      state.examSubmitted = false;
+      state.currentIndex = 0;
+      state.statusFilter = "all";
+      state.transitionDir = "up";
+      renderAll();
+    }
+
+    // =========================================================================
+    // 6. SUMMARY MODAL & CONFETTI CELEBRATION
+    // =========================================================================
+    function submitExamOrShowSummary() {
+      if (state.mode === "exam" && !state.examSubmitted) {
+        state.examSubmitted = true;
+        renderAll();
+      }
+      openSummaryModal();
+    }
+
+    function openSummaryModal() {
+      const total = QUIZ_QUESTIONS.length;
+      let correct = 0;
+      let wrong = 0;
+      let unanswered = 0;
+
+      const domainStats = {};
+      Object.keys(DOMAIN_META).forEach(d => {
+        domainStats[d] = { total: 0, correct: 0 };
+      });
+
+      QUIZ_QUESTIONS.forEach(q => {
+        domainStats[q.domain].total++;
+        const ans = state.userAnswers[q.id];
+        if (!ans) {
+          unanswered++;
+        } else if (ans === q.answer) {
+          correct++;
+          domainStats[q.domain].correct++;
+        } else {
+          wrong++;
+        }
+      });
+
+      const pct = Math.round((correct / total) * 100);
+      document.getElementById("modal-score-pct").textContent = `${pct}%`;
+      document.getElementById("modal-score-fraction").textContent = `${correct}/${total} câu`;
+      document.getElementById("modal-correct").textContent = correct;
+      document.getElementById("modal-wrong").textContent = wrong;
+      document.getElementById("modal-unanswered").textContent = unanswered;
+
+      // Animate SVG Circle
+      const circumference = 263.89;
+      const offset = circumference - (pct / 100) * circumference;
+      const ring = document.getElementById("modal-score-ring");
+      ring.style.strokeDashoffset = circumference;
+      setTimeout(() => {
+        ring.style.strokeDashoffset = offset;
+      }, 60);
+
+      // Verdict Text
+      const vTitle = document.getElementById("modal-verdict-title");
+      const vDesc = document.getElementById("modal-verdict-desc");
+      if (pct >= 90) {
+        vTitle.textContent = "Xuất sắc! Sẵn sàng chinh phục Top 20 Vòng 1";
+        vTitle.className = "text-base font-bold text-emeraldAccent";
+        vDesc.textContent = "Bạn đã nắm rất chắc tư duy Agile Scrum cùng kiến thức chuyên môn của cả 5 Role (PM, PO, BA, DEV, QA).";
+        launchConfetti();
+      } else if (pct >= 70) {
+        vTitle.textContent = "Nền tảng tốt! Cần rà soát lại một số câu bẫy tình huống";
+        vTitle.className = "text-base font-bold text-cyanAccent";
+        vDesc.textContent = "Bạn đã hiểu phần lớn kiến thức cốt lõi. Hãy bấm 'Xem lại các câu sai' để đọc kỹ phần giải thích chuyên môn.";
+      } else {
+        vTitle.textContent = "Cần ôn luyện thêm để nắm chắc quy tắc Scrum & 5 Roles";
+        vTitle.className = "text-base font-bold text-amberAccent";
+        vDesc.textContent = "Hãy kết hợp đọc Cẩm nang Agile Scrum (PM Handbook) và làm lại từng nhóm chuyên đề để ghi nhớ các từ khóa quan trọng.";
+      }
+
+      // Render Domain Bars
+      const barsContainer = document.getElementById("modal-domain-bars");
+      barsContainer.innerHTML = Object.keys(DOMAIN_META).map(dom => {
+        const st = domainStats[dom];
+        const domPct = st.total > 0 ? Math.round((st.correct / st.total) * 100) : 0;
+        return `
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-medium">${escapeHtml(DOMAIN_META[dom].label)}</span>
+              <span class="mono-num font-semibold">${st.correct}/${st.total} (${domPct}%)</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-slate-800/60 overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-cyanAccent to-emeraldAccent transition-all duration-700" style="width: ${domPct}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      const modal = document.getElementById("summary-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function closeSummaryModal() {
+      const modal = document.getElementById("summary-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    function launchConfetti() {
+      const canvas = document.getElementById("confetti-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const colors = ["#10B981", "#06B6D4", "#F59E0B", "#3B82F6", "#A855F7"];
+      const particles = Array.from({ length: 90 }, () => ({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 100,
+        w: 6 + Math.random() * 6,
+        h: 4 + Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: -2 + Math.random() * 4,
+        vy: 2.5 + Math.random() * 4.5,
+        rot: Math.random() * Math.PI * 2,
+        vrot: -0.1 + Math.random() * 0.2
+      }));
+
+      let frame = 0;
+      function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vrot;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        });
+        frame++;
+        if (frame < 160) {
+          requestAnimationFrame(tick);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // =========================================================================
+    // 7. THEME & KEYBOARD SHORTCUTS
+    // =========================================================================
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle("dark");
+      document.getElementById("icon-sun").classList.toggle("hidden", isDark);
+      document.getElementById("icon-moon").classList.toggle("hidden", !isDark);
+      localStorage.setItem("hack4biz_quiz_theme", isDark ? "dark" : "light");
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem("hack4biz_quiz_theme");
+      const html = document.documentElement;
+      if (saved === "light") {
+        html.classList.remove("dark");
+        document.getElementById("icon-sun").classList.remove("hidden");
+        document.getElementById("icon-moon").classList.add("hidden");
+      }
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      if (state.view !== "single") return;
+
+      const filtered = getFilteredQuestions();
+      const currentQ = filtered[state.currentIndex];
+      if (!currentQ) return;
+
+      const optOrder = state.optionOrders[currentQ.id] || ["A", "B", "C", "D"];
+      const keyUpper = e.key.toUpperCase();
+
+      if (["A", "B", "C", "D"].includes(keyUpper)) {
+        const idx = ["A", "B", "C", "D"].indexOf(keyUpper);
+        selectOption(currentQ.id, optOrder[idx]);
+      } else if (["1", "2", "3", "4"].includes(e.key)) {
+        const idx = parseInt(e.key, 10) - 1;
+        selectOption(currentQ.id, optOrder[idx]);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        navigateRelative(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        navigateRelative(-1);
+      } else if (keyUpper === "F") {
+        e.preventDefault();
+        toggleFlag(currentQ.id);
+      } else if (keyUpper === "E") {
+        e.preventDefault();
+        if (isQuestionEvaluated(currentQ.id)) toggleExplanation(currentQ.id);
+      }
+    });
+
+    // Initialize Application
+    initTheme();
+    loadState();
+    renderAll();
+  </script>
+</body>
+</html>

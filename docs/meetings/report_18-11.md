@@ -1,5 +1,6 @@
-# BIÊN BẢN HỌP NỘI BỘ — ĐỘI THI HACK4BIZ COMPETITION 2026
+# BIÊN BẢN HỌP NỘI BỘ — TEAM `</ProPTIT> Gương Dễ Thay` (HACK4BIZ 2026)
 
+- **Tên đội thi:** `</ProPTIT> Gương Dễ Thay`
 - **Ngày họp:** `18/11/2026` (`20:00 – 21:30`)
 - **Hình thức:** Online Meeting (Discord)
 - **Thành phần tham dự:** Đầy đủ 5 thành viên (`1 BA - NEU` + `4 Developers`)

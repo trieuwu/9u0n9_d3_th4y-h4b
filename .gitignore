@@ -1,0 +1,82 @@
+# =============================================================================
+# 1. Công cụ AI & Cấu hình Agent cá nhân (TUYỆT ĐỐI KHÔNG COMMIT)
+# =============================================================================
+.antigravity/
+.antigravity/**
+ANTIGRAVITY.md
+antigravity.md
+.agy/
+.agent/
+.agents/
+_agent/
+_agents/
+.claude/
+.gemini/
+.cursor/
+.windsurf/
+AGENTS.md
+agents.md
+CLAUDE.md
+claude.md
+GEMINI.md
+gemini.md
+MEMORY.md
+SESSION_NOTES.md
+HANDOFF.md
+settings.json
+.mcp.json
+mcp_config.json
+
+# =============================================================================
+# 2. Biến môi trường & Khóa bí mật (Secrets)
+# =============================================================================
+.env
+.env.*
+!.env.example
+
+# =============================================================================
+# 3. Hệ điều hành & IDE / Editor
+# =============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =============================================================================
+# 4. Python / AI Backend & Node.js Frontend (Chuẩn bị cho Vòng 2 & Vòng 3)
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+node_modules/
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+
+# =============================================================================
+# 5. Logs, Cache & Dữ liệu tạm cục bộ
+# =============================================================================
+*.log
+logs/
+.cache/
+outputs/
+tmp/
+temp/
+*.sqlite
+*.sqlite3
+*.db
+chroma_db/
+faiss_index/

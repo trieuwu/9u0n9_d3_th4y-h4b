@@ -1,5 +1,6 @@
-# BIÊN BẢN HỌP NỘI BỘ — ĐỘI THI HACK4BIZ COMPETITION 2026
+# BIÊN BẢN HỌP NỘI BỘ — TEAM `</ProPTIT> Gương Dễ Thay` (HACK4BIZ 2026)
 
+- **Tên đội thi:** `</ProPTIT> Gương Dễ Thay`
 - **Ngày họp:** `18/11/2026` (`20:00 – 21:30`)
 - **Hình thức:** Online Meeting (Discord)
 - **Thành phần tham dự:** Đầy đủ 5 thành viên (`1 BA - NEU` + `4 Developers`)
@@ -42,13 +43,13 @@
 
 > *Lưu ý: Phân vai dưới đây dùng để đăng ký hồ sơ và làm bài thi đánh giá năng lực Vòng 1 (27/11). Sang Vòng 2 & Vòng 3, cả 4 thành viên kỹ thuật đều cùng tham gia thiết kế kiến trúc, lập trình và kiểm thử hệ thống AI Agent.*
 
-| STT | Nhóm chuyên môn | Vai trò đăng ký Vòng 1 | Trọng tâm ôn luyện Vòng 1 | Ghi chú phân công |
+| STT | Họ và Tên | Vai trò đăng ký Vòng 1 | Trọng tâm ôn luyện Vòng 1 | Ghi chú phân công |
 | :---: | :--- | :---: | :--- | :--- |
-| `01` | Khối Nghiệp vụ (NEU) | **BA** | BABOK, BRD/SRS, User Story (INVEST), Acceptance Criteria, Use Case / BPMN | Cố định theo chuyên ngành |
-| `02` | Khối Quản trị & Scrum | **PM** | Agile Scrum Guide 2020, Capacity, Velocity, Burndown/CFD, Risk & Change Management | Phụ trách điều phối chung & Git |
-| `03` | Khối Sản phẩm | **PO** | Product Vision, Backlog Ordering, MoSCoW, RICE, Problem vs. Solution, ROI | Phụ trách tối ưu giá trị nghiệp vụ |
-| `04` | Khối Kỹ thuật | **DEV** | RESTful API, Backend Lifecycle, RAG vs. Function Calling, Resilience, AuthN/AuthZ | Phụ trách kiến trúc & AI Pipeline |
-| `05` | Khối Chất lượng | **QA** | ISO/IEC/IEEE 29119-3, ISTQB v4.0 Defect Lifecycle, Regression Test, AI Eval | Phụ trách kiểm thử & tiêu chuẩn DoD |
+| `01` | **Đặng Việt Anh** | **BA** | BABOK, BRD/SRS, User Story (INVEST), Acceptance Criteria, Use Case / BPMN | Phụ trách phân tích nghiệp vụ (NEU) |
+| `02` | **Hà Tiến Triệu** | **PM** | Agile Scrum Guide 2020, Capacity, Velocity, Burndown/CFD, Risk & Change Management | Phụ trách điều phối dự án & Git |
+| `03` | **Nguyễn Tú Anh** | **PO** | Product Vision, Backlog Ordering, MoSCoW, RICE, Problem vs. Solution, ROI | Phụ trách tối ưu giá trị sản phẩm |
+| `04` | **Phùng Hải Đăng** | **DEV** | RESTful API, Backend Lifecycle, RAG vs. Function Calling, Resilience, AuthN/AuthZ | Phụ trách kiến trúc & AI Pipeline |
+| `05` | **Đàm Thuận Khải** | **Tester (QA)** | ISO/IEC/IEEE 29119-3, ISTQB v4.0 Defect Lifecycle, Regression Test, AI Eval | Phụ trách kiểm thử & tiêu chuẩn DoD |
 
 ---
 

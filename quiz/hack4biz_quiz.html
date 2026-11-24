@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hack4Biz 2026 — Hệ Thống Luyện Tập Trắc Nghiệm (30 Câu Chính Thức)</title>
+  <title>Hack4Biz 2026 — Web Ôn Luyện Trắc Nghiệm 30 Câu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -195,6 +195,78 @@
       outline-offset: 2px;
     }
 
+    /* Intro Splash & Member Card Effects */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes cardStaggerIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .intro-backdrop {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(16, 185, 129, 0.14), transparent 40%),
+        radial-gradient(circle at 82% 22%, rgba(6, 182, 212, 0.14), transparent 42%),
+        radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.08), transparent 48%),
+        var(--bg-main);
+    }
+    .member-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-input);
+      opacity: 0;
+      animation: cardStaggerIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.24s ease, box-shadow 0.24s ease;
+    }
+    .member-card:hover {
+      transform: translateY(-5px);
+      border-color: #10B981;
+      box-shadow: 0 12px 26px -8px rgba(16, 185, 129, 0.25);
+    }
+    .float-badge {
+      animation: floatSlow 3.6s ease-in-out infinite;
+    }
+    .intro-exit {
+      opacity: 0;
+      transform: scale(1.02);
+      pointer-events: none;
+      transition: opacity 0.32s ease, transform 0.32s ease;
+    }
+
+    /* Jumpscare Effects */
+    @keyframes jumpscareZoomShake {
+      0% { transform: scale(0.08) rotate(-12deg); opacity: 0; }
+      12% { transform: scale(1.22) rotate(6deg); opacity: 1; }
+      20% { transform: scale(0.95) rotate(-6deg) translate(-18px, 14px); }
+      28% { transform: scale(1.18) rotate(5deg) translate(20px, -16px); }
+      36% { transform: scale(1.05) rotate(-4deg) translate(-16px, -12px); }
+      44% { transform: scale(1.15) rotate(4deg) translate(16px, 14px); }
+      52% { transform: scale(1.08) rotate(-3deg) translate(-12px, 10px); }
+      60% { transform: scale(1.12) rotate(3deg) translate(12px, -10px); }
+      75% { transform: scale(1.06) rotate(-1deg) translate(-6px, 6px); }
+      100% { transform: scale(1.08) rotate(0deg) translate(0, 0); opacity: 1; }
+    }
+    @keyframes jumpscareStrobeBg {
+      0%, 100% { background-color: #000000; }
+      15% { background-color: #7F1D1D; }
+      30% { background-color: #000000; }
+      45% { background-color: #991B1B; }
+      60% { background-color: #090D16; }
+      75% { background-color: #450A0A; }
+    }
+    .jumpscare-active-bg {
+      animation: jumpscareStrobeBg 0.35s steps(2, end) infinite;
+    }
+    .jumpscare-img-anim {
+      animation: jumpscareZoomShake 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
@@ -217,6 +289,91 @@
   <!-- Confetti Canvas Overlay -->
   <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
+  <!-- One-Time Jumpscare Overlay (Triggers once after completing 5th question) -->
+  <div
+    id="jumpscare-overlay"
+    onclick="dismissJumpscare()"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center overflow-hidden select-none cursor-pointer jumpscare-active-bg"
+  >
+    <div class="relative w-full h-full flex flex-col items-center justify-center p-4">
+      <img
+        id="jumpscare-img"
+        src=""
+        alt="Surprise!"
+        class="max-w-full max-h-[92vh] object-contain rounded-xl shadow-[0_0_90px_rgba(239,68,68,0.9)] jumpscare-img-anim"
+      />
+    </div>
+    <audio id="jumpscare-audio" preload="auto"></audio>
+  </div>
+
+  <!-- Opening Welcome & Team Credits Overlay -->
+  <div id="intro-overlay" class="fixed inset-0 z-50 intro-backdrop flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div class="max-w-3xl w-full surface-card rounded-3xl p-6 sm:p-9 shadow-2xl space-y-6 my-auto anim-up relative overflow-hidden">
+      <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emeraldAccent via-cyanAccent to-emeraldAccent"></div>
+
+      <!-- Minimal Header -->
+      <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30">
+          <span>&lt;/ProPTIT&gt; Gương Dễ Thay</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
+          Ôn Luyện Trắc Nghiệm Hack4Biz 2026
+        </h1>
+      </div>
+
+      <!-- 5 Team Members -->
+      <div class="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
+        <div class="member-card rounded-xl p-3.5 flex sm:flex-col items-center sm:justify-center gap-2.5 sm:text-center" style="animation-delay: 0.05s;">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold mono-num bg-blue-500/15 text-blue-400 border border-blue-500/30">DEV</span>
+          <div class="font-semibold text-xs sm:text-sm">Phùng Hải Đăng</div>
+        </div>
+
+        <div class="member-card rounded-xl p-3.5 flex sm:flex-col items-center sm:justify-center gap-2.5 sm:text-center" style="animation-delay: 0.10s;">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold mono-num bg-amberAccent/15 text-amberAccent border border-amberAccent/30">PO</span>
+          <div class="font-semibold text-xs sm:text-sm">Nguyễn Tú Anh</div>
+        </div>
+
+        <div class="member-card rounded-xl p-3.5 flex sm:flex-col items-center sm:justify-center gap-2.5 sm:text-center" style="animation-delay: 0.15s;">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold mono-num bg-roseAccent/15 text-roseAccent border border-roseAccent/30">TESTER</span>
+          <div class="font-semibold text-xs sm:text-sm">Đàm Thuận Khải</div>
+        </div>
+
+        <div class="member-card rounded-xl p-3.5 flex sm:flex-col items-center sm:justify-center gap-2.5 sm:text-center" style="animation-delay: 0.20s;">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold mono-num bg-purple-500/15 text-purple-400 border border-purple-500/30">BA</span>
+          <div class="font-semibold text-xs sm:text-sm">Đặng Việt Anh</div>
+        </div>
+
+        <div class="member-card rounded-xl p-3.5 flex sm:flex-col items-center sm:justify-center gap-2.5 sm:text-center" style="animation-delay: 0.25s;">
+          <span class="px-2 py-0.5 rounded text-[11px] font-bold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30">PM</span>
+          <div class="font-semibold text-xs sm:text-sm">Hà Tiến Triệu</div>
+        </div>
+      </div>
+
+      <!-- CTA & Author Credit -->
+      <div class="flex flex-col items-center gap-3 pt-1">
+        <button
+          onclick="startQuizFromIntro()"
+          class="w-full sm:w-auto px-8 py-3 rounded-xl font-bold text-sm bg-emeraldAccent hover:bg-emerald-400 text-slate-950 shadow-lg shadow-emeraldAccent/20 transition-all hover:-translate-y-0.5"
+        >
+          Bắt đầu làm bài →
+        </button>
+
+        <a
+          href="https://github.com/trieuwu"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-xs hover:text-emeraldAccent transition-colors"
+          style="color: var(--text-muted);"
+        >
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+          <span>Credit: <strong style="color: var(--text-main);">Hà Tiến Triệu</strong> (<span class="mono-num text-cyanAccent">github.com/trieuwu</span>)</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Top Progress Bar -->
   <div class="sticky top-0 z-40 w-full backdrop-blur-md bg-opacity-90" style="background-color: var(--bg-surface); border-bottom: 1px solid var(--border-subtle);">
     <div class="w-full h-1 bg-slate-800/50 overflow-hidden">
@@ -236,7 +393,7 @@
               30 Questions • Không giới hạn thời gian
             </span>
           </div>
-          <p class="text-xs" style="color: var(--text-muted);">Bộ đề luyện tập chính thức Vòng 1 (Agile Scrum • PM • PO • BA • DEV • QA)</p>
+          <p class="text-xs" style="color: var(--text-muted);">Team <strong class="mono-num text-emeraldAccent">&lt;/ProPTIT&gt; Gương Dễ Thay</strong> • Bộ đề luyện tập Vòng 1 (Agile Scrum • PM • PO • BA • DEV • QA)</p>
         </div>
       </div>
 
@@ -261,6 +418,11 @@
             Danh sách
           </button>
         </div>
+
+        <!-- Team Credits Button -->
+        <button onclick="openIntroOverlay()" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold elevated-box hover:border-emeraldAccent text-emeraldAccent transition-colors flex items-center gap-1.5" title="Xem giới thiệu đội ngũ thực hiện">
+          <span>★ Team Credits</span>
+        </button>
 
         <!-- Theme Toggle -->
         <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 rounded-lg elevated-box hover:border-cyanAccent transition-colors" title="Đổi giao diện Sáng / Tối">
@@ -433,6 +595,23 @@
 
     </aside>
   </main>
+
+  <!-- Persistent Footer Credits -->
+  <footer class="w-full border-t py-4 mt-8" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs" style="color: var(--text-muted);">
+      <div class="flex items-center gap-2">
+        <span class="px-2 py-0.5 rounded font-bold mono-num bg-emeraldAccent/15 text-emeraldAccent border border-emeraldAccent/30">&lt;/ProPTIT&gt; Gương Dễ Thay</span>
+        <span>• Ôn luyện Vòng 1 Hack4Biz 2026</span>
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+        <span>Credit:</span>
+        <a href="https://github.com/trieuwu" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-emeraldAccent transition-colors inline-flex items-center gap-1.5" style="color: var(--text-main);">
+          <span>Hà Tiến Triệu</span>
+          <span class="mono-num text-cyanAccent">(github.com/trieuwu)</span>
+        </a>
+      </div>
+    </div>
+  </footer>
 
   <!-- Summary & Analytics Modal -->
   <div id="summary-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
@@ -945,6 +1124,21 @@
     };
 
     const STORAGE_KEY = "hack4biz_quiz_30_state_v1";
+    const JUMPSCARE_STORAGE_KEY = "hack4biz_jumpscare_triggered_once_v1";
+
+    // =========================================================================
+    // CẤU HÌNH JUMPSCARE (CHỈ NỔ ĐÚNG 1 LẦN DUY NHẤT SAU KHI XONG CÂU THỨ 5)
+    // =========================================================================
+    // Bạn có thể điền đường dẫn file ảnh/âm thanh cùng thư mục (VD: "./troll.jpg", "./scream.mp3")
+    // hoặc dán trực tiếp chuỗi Base64 (data:image/...;base64,... / data:audio/...;base64,...)
+    // Nếu bạn ném file ảnh & sfx vào thư mục dự án, tôi có thể nhúng thẳng Base64 vào đây để gửi 1 file .html duy nhất!
+    const JUMPSCARE_CONFIG = {
+      enabled: true,
+      triggerQuestionCount: 5,       // Kích hoạt ngay sau khi người dùng trả lời xong câu thứ 5
+      imageSrc: "./jumpscare.jpg",   // Đường dẫn ảnh thành viên hoặc chuỗi Base64 data:image/...
+      audioSrc: "./jumpscare.mp3",   // Đường dẫn file âm thanh SFX hoặc chuỗi Base64 data:audio/...
+      autoCloseMs: 3200              // Tự động tắt sau 3.2 giây (hoặc click chuột để tắt ngay)
+    };
 
     // =========================================================================
     // 2. APPLICATION STATE (NO TIMER)
@@ -1437,17 +1631,146 @@
     // 5. INTERACTION HANDLERS
     // =========================================================================
     function selectOption(qId, optKey) {
+      const wasAnsweredBefore = !!state.userAnswers[qId];
       state.userAnswers[qId] = optKey;
       state.showExplanation[qId] = true;
       state.transitionDir = "up";
       renderAll();
 
-      // Check if all 30 questions are answered in instant mode -> celebrate!
       const answeredCount = Object.keys(state.userAnswers).length;
+
+      // Trigger one-time Jumpscare right after completing the 5th question
+      if (!wasAnsweredBefore && answeredCount === JUMPSCARE_CONFIG.triggerQuestionCount) {
+        checkAndTriggerJumpscare();
+      }
+
+      // Check if all 30 questions are answered in instant mode -> celebrate!
       if (state.mode === "instant" && answeredCount === QUIZ_QUESTIONS.length) {
         launchConfetti();
       }
     }
+
+    // =========================================================================
+    // 5B. ONE-TIME JUMPSCARE ENGINE
+    // =========================================================================
+    let jumpscareTimer = null;
+
+    function playFallbackScreamSfx() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+
+        // Dissonant horror shriek oscillators + white noise burst
+        const freqs = [580, 860, 1240, 1680];
+        freqs.forEach((f, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = i % 2 === 0 ? "sawtooth" : "square";
+          osc.frequency.setValueAtTime(f, now);
+          osc.frequency.exponentialRampToValueAtTime(f * 1.45, now + 0.18);
+          osc.frequency.exponentialRampToValueAtTime(f * 0.7, now + 0.85);
+
+          gain.gain.setValueAtTime(0.001, now);
+          gain.gain.exponentialRampToValueAtTime(0.28, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.92);
+        });
+      } catch (e) {
+        console.warn("WebAudio fallback SFX error:", e);
+      }
+    }
+
+    function checkAndTriggerJumpscare() {
+      if (!JUMPSCARE_CONFIG.enabled) return;
+      try {
+        if (localStorage.getItem(JUMPSCARE_STORAGE_KEY) === "true") {
+          return; // Đã từng bị jumpscare 1 lần -> Không bao giờ nổ lần 2
+        }
+        localStorage.setItem(JUMPSCARE_STORAGE_KEY, "true");
+      } catch (e) {
+        console.warn("Could not access localStorage for jumpscare flag:", e);
+      }
+      triggerJumpscareNow();
+    }
+
+    function triggerJumpscareNow() {
+      const overlay = document.getElementById("jumpscare-overlay");
+      const imgEl = document.getElementById("jumpscare-img");
+      const audioEl = document.getElementById("jumpscare-audio");
+      if (!overlay || !imgEl) return;
+
+      // Fallback SVG nếu chưa chèn ảnh thật
+      const fallbackSvg = "data:image/svg+xml;utf8," + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+          <rect width="600" height="600" rx="40" fill="#090D16" stroke="#EF4444" stroke-width="12"/>
+          <circle cx="200" cy="230" r="55" fill="#EF4444"/>
+          <circle cx="400" cy="230" r="55" fill="#EF4444"/>
+          <circle cx="200" cy="230" r="20" fill="#000"/>
+          <circle cx="400" cy="230" r="20" fill="#000"/>
+          <path d="M 140 430 Q 300 540 460 430 Q 300 470 140 430 Z" fill="#EF4444" stroke="#F8FAFC" stroke-width="8"/>
+        </svg>
+      `);
+
+      imgEl.onerror = () => {
+        imgEl.onerror = null;
+        imgEl.src = fallbackSvg;
+      };
+      imgEl.src = JUMPSCARE_CONFIG.imageSrc || fallbackSvg;
+
+      // Re-trigger zoom animation
+      imgEl.classList.remove("jumpscare-img-anim");
+      void imgEl.offsetWidth;
+      imgEl.classList.add("jumpscare-img-anim");
+
+      overlay.classList.remove("hidden");
+      overlay.classList.add("flex");
+
+      // Play custom SFX or fallback Web Audio scream
+      if (JUMPSCARE_CONFIG.audioSrc) {
+        audioEl.src = JUMPSCARE_CONFIG.audioSrc;
+        audioEl.currentTime = 0;
+        audioEl.play().catch(() => {
+          playFallbackScreamSfx();
+        });
+      } else {
+        playFallbackScreamSfx();
+      }
+
+      if (jumpscareTimer) clearTimeout(jumpscareTimer);
+      if (JUMPSCARE_CONFIG.autoCloseMs > 0) {
+        jumpscareTimer = setTimeout(() => {
+          dismissJumpscare();
+        }, JUMPSCARE_CONFIG.autoCloseMs);
+      }
+    }
+
+    function dismissJumpscare() {
+      const overlay = document.getElementById("jumpscare-overlay");
+      const audioEl = document.getElementById("jumpscare-audio");
+      if (!overlay) return;
+      overlay.classList.add("hidden");
+      overlay.classList.remove("flex");
+      if (audioEl) {
+        audioEl.pause();
+        audioEl.currentTime = 0;
+      }
+      if (jumpscareTimer) {
+        clearTimeout(jumpscareTimer);
+        jumpscareTimer = null;
+      }
+    }
+
+    // Hàm tiện ích trong DevTools Console dành riêng cho bạn khi muốn test lại Jumpscare:
+    window.resetJumpscareForTest = function() {
+      localStorage.removeItem(JUMPSCARE_STORAGE_KEY);
+      console.log("Đã reset cờ Jumpscare! Khi làm xong câu thứ 5 (hoặc gọi triggerJumpscareNow()) sẽ nổ lại.");
+    };
 
     function clearSingleAnswer(qId) {
       delete state.userAnswers[qId];
@@ -1752,8 +2075,34 @@
     }
 
     // =========================================================================
-    // 7. THEME & KEYBOARD SHORTCUTS
+    // 7. INTRO SPLASH SCREEN, THEME & KEYBOARD SHORTCUTS
     // =========================================================================
+    let isIntroOpen = true;
+
+    function startQuizFromIntro(selectedMode) {
+      if (selectedMode) {
+        state.mode = selectedMode;
+        if (selectedMode === "instant") state.examSubmitted = false;
+        renderAll();
+      }
+      const overlay = document.getElementById("intro-overlay");
+      if (!overlay) return;
+      overlay.classList.add("intro-exit");
+      isIntroOpen = false;
+      setTimeout(() => {
+        overlay.classList.add("hidden");
+        overlay.classList.remove("flex", "intro-exit");
+      }, 310);
+    }
+
+    function openIntroOverlay() {
+      const overlay = document.getElementById("intro-overlay");
+      if (!overlay) return;
+      overlay.classList.remove("hidden", "intro-exit");
+      overlay.classList.add("flex");
+      isIntroOpen = true;
+    }
+
     function toggleTheme() {
       const html = document.documentElement;
       const isDark = html.classList.toggle("dark");
@@ -1773,6 +2122,13 @@
     }
 
     document.addEventListener("keydown", (e) => {
+      if (isIntroOpen) {
+        if (e.key === "Enter" || e.key === "Escape") {
+          e.preventDefault();
+          startQuizFromIntro();
+        }
+        return;
+      }
       if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       if (state.view !== "single") return;
 
